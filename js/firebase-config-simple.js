@@ -78,8 +78,11 @@
 
 
 
-// Add this import statement at the top of your file
-import 'firebase/performance'; // Import the Performance Monitoring module
+// Import the core Firebase App and other services you use (compat versions)
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
+import "firebase/compat/performance"; // Import the Performance Monitoring module
 
 // Firebase configuration - Replace with your project config
 const firebaseConfig = {
@@ -94,18 +97,15 @@ const firebaseConfig = {
 
 // Initialize Firebase with error handling
 try {
-  // Ensure the core Firebase app is initialized first
+  // Initialize the Firebase App
   const app = firebase.initializeApp(firebaseConfig);
 
-  // Initialize Authentication and Firestore
+  // Initialize Authentication, Firestore, and Performance
   const auth = firebase.auth();
   const db = firebase.firestore();
+  const perf = firebase.performance(); // Initialize Performance Monitoring
 
-  // Initialize Firebase Performance Monitoring
-  // This line needs to be added after firebase.initializeApp(firebaseConfig);
-  const perf = firebase.performance();
-
-  // Export for use in other files (optional, but good practice if you need 'perf' elsewhere)
+  // Export for use in other files
   window.auth = auth;
   window.db = db;
   window.perf = perf; // Export the performance instance as well
@@ -114,7 +114,7 @@ try {
 } catch (error) {
   console.warn("Firebase initialization failed, using offline mode:", error);
 
-  // ... (your existing mock objects for offline functionality) ...
+  // Create mock auth and db objects for offline functionality
   window.auth = {
     createUserWithEmailAndPassword: () =>
       Promise.resolve({
@@ -155,22 +155,22 @@ try {
     }),
   };
 
-  // Add Firebase field value for offline mode
+  // Add Firebase field value and Performance mock for offline mode
   window.firebase = {
     firestore: {
       FieldValue: {
         serverTimestamp: () => new Date(),
       },
     },
-    // You might also want to mock performance here if you intend to use custom traces in offline mode,
-    // though for basic offline functionality, it's often not critical.
-    performance: () => ({
+    performance: () => ({ // Mock for firebase.performance()
       trace: (name) => ({
-        start: () => {},
-        stop: () => {},
-        putAttribute: () => {},
-        incrementMetric: () => {}
-      })
+        start: () => console.log(`[Offline Perf] Trace '${name}' started.`),
+        stop: () => console.log(`[Offline Perf] Trace '${name}' stopped.`),
+        putAttribute: (key, value) => console.log(`[Offline Perf] Trace '${name}' attribute: ${key}=${value}`),
+        incrementMetric: (metricName, incrementBy) => console.log(`[Offline Perf] Trace '${name}' metric '${metricName}' incremented by ${incrementBy}`)
+      }),
+      // Other performance monitoring methods could be mocked if needed
+      is   Supported: () => false // Indicate no perf support offline
     })
   };
 }
