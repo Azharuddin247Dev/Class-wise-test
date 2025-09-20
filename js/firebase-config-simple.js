@@ -1,4 +1,4 @@
-// Firebase configuration - Demo setup for testing
+// Firebase configuration - Replace with your project config
 const firebaseConfig = {
   apiKey: "AIzaSyBwL1GY8Fu4eK4e1LwBrDNspZi-Y87rVxA",
   authDomain: "class-wise-test-edd7d.firebaseapp.com",
@@ -21,7 +21,7 @@ try {
   window.auth = auth;
   window.db = db;
 
-  console.log("Firebase initialized with Authentication and Firestore");
+  console.log("Firebase initialized - Data will be saved to your private database");
 } catch (error) {
   console.warn("Firebase initialization failed, using offline mode:", error);
 
