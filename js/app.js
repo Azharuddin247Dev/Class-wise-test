@@ -38,7 +38,24 @@ function selectClass(classNum) {
             chaptersContainer.appendChild(chapterBtn);
         });
     } else {
-        chaptersContainer.innerHTML = '<p>Chapter data not available for this class.</p>';
+        // Wait for chapters.js to load and retry
+        setTimeout(() => {
+            if (window.classChapters && window.classChapters[classNum]) {
+                chaptersContainer.innerHTML = '';
+                window.classChapters[classNum].forEach(chapter => {
+                    const chapterBtn = document.createElement('div');
+                    chapterBtn.className = 'chapter-btn';
+                    chapterBtn.innerHTML = `
+                        <h4>${chapter.name}</h4>
+                        <p>${chapter.description}</p>
+                    `;
+                    chapterBtn.onclick = () => selectChapter(chapter);
+                    chaptersContainer.appendChild(chapterBtn);
+                });
+            } else {
+                chaptersContainer.innerHTML = '<p>Chapter data not available for this class. Please refresh the page.</p>';
+            }
+        }, 500);
     }
 }
 
@@ -316,10 +333,22 @@ async function saveTestResult(score, percentage) {
 
 async function displayLeaderboard() {
     const leaderboard = document.getElementById('leaderboard');
-    leaderboard.innerHTML = '<h3>🏆 Global Leaderboard - All Tests</h3><p>Loading...</p>';
+    leaderboard.innerHTML = '<div class="leaderboard-tabs"><button class="tab-btn active" onclick="showGlobalLeaderboard()">🌍 Global</button><button class="tab-btn" onclick="showLocalLeaderboard()">📚 This Chapter</button></div><div id="leaderboard-content"><p>Loading...</p></div>';
+    
+    // Show global leaderboard by default
+    showGlobalLeaderboard();
+}
+
+async function showGlobalLeaderboard() {
+    // Update tab buttons
+    document.querySelectorAll('.leaderboard-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.leaderboard-tabs .tab-btn')[0].classList.add('active');
+    
+    const content = document.getElementById('leaderboard-content');
+    content.innerHTML = '<h3>🌍 Global Leaderboard - All Tests</h3><p>Loading...</p>';
     
     try {
-        // Get all results from Firestore with proper error handling
+        // Get all results from Firestore
         const snapshot = await window.db.collection('testResults')
             .orderBy('percentage', 'desc')
             .orderBy('timestamp', 'desc')
@@ -336,15 +365,14 @@ async function displayLeaderboard() {
             });
         });
         
-        // Clear loading message
-        leaderboard.innerHTML = '<h3>🏆 Global Leaderboard - All Tests</h3>';
+        content.innerHTML = '<h3>🌍 Global Leaderboard - All Tests</h3>';
         
         if (allResults.length === 0) {
-            leaderboard.innerHTML += '<p>No results yet. Be the first to take a test!</p>';
+            content.innerHTML += '<p>No results yet. Be the first to take a test!</p>';
             return;
         }
         
-        // Sort results properly (highest percentage first, then by time taken)
+        // Sort results properly
         allResults.sort((a, b) => {
             if (b.percentage !== a.percentage) {
                 return b.percentage - a.percentage;
@@ -356,7 +384,6 @@ async function displayLeaderboard() {
             const entry = document.createElement('div');
             entry.className = 'leaderboard-entry detailed';
             
-            // Highlight current user's result
             const isCurrentUser = result.userId === currentUser?.uid;
             if (isCurrentUser) {
                 entry.classList.add('current-user');
@@ -376,86 +403,104 @@ async function displayLeaderboard() {
                     <span class="timestamp">${result.dateTime || result.timestamp.toLocaleString('en-IN')}</span>
                 </div>
             `;
-            leaderboard.appendChild(entry);
+            content.appendChild(entry);
         });
         
-        // Add current chapter specific results if available
-        if (userData.selectedClass && userData.selectedChapter) {
-            const currentChapterSnapshot = await window.db.collection('testResults')
-                .where('class', '==', userData.selectedClass)
-                .where('chapterId', '==', userData.selectedChapter.id)
-                .orderBy('percentage', 'desc')
-                .orderBy('timestamp', 'desc')
-                .limit(10)
-                .get();
-            
-            const currentChapterResults = [];
-            currentChapterSnapshot.forEach(doc => {
-                const data = doc.data();
-                currentChapterResults.push({
-                    id: doc.id,
-                    ...data,
-                    timestamp: data.timestamp ? data.timestamp.toDate() : new Date(data.dateTime || Date.now())
-                });
+    } catch (error) {
+        console.error('Error loading global leaderboard:', error);
+        content.innerHTML = '<h3>🌍 Global Leaderboard</h3><p>Unable to load global leaderboard. Showing local results...</p>';
+        displayLocalLeaderboardFallback();
+    }
+}
+
+async function showLocalLeaderboard() {
+    // Update tab buttons
+    document.querySelectorAll('.leaderboard-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.leaderboard-tabs .tab-btn')[1].classList.add('active');
+    
+    const content = document.getElementById('leaderboard-content');
+    
+    if (!userData.selectedClass || !userData.selectedChapter) {
+        content.innerHTML = '<h3>📚 Chapter Leaderboard</h3><p>No chapter selected.</p>';
+        return;
+    }
+    
+    content.innerHTML = `<h3>📚 Chapter Leaderboard</h3><h4>Class ${userData.selectedClass} - ${userData.selectedChapter.name}</h4><p>Loading...</p>`;
+    
+    try {
+        const snapshot = await window.db.collection('testResults')
+            .where('class', '==', userData.selectedClass)
+            .where('chapterId', '==', userData.selectedChapter.id)
+            .orderBy('percentage', 'desc')
+            .orderBy('timestamp', 'desc')
+            .limit(15)
+            .get();
+        
+        const chapterResults = [];
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            chapterResults.push({
+                id: doc.id,
+                ...data,
+                timestamp: data.timestamp ? data.timestamp.toDate() : new Date(data.dateTime || Date.now())
             });
-            
-            if (currentChapterResults.length > 0) {
-                const chapterSection = document.createElement('div');
-                chapterSection.innerHTML = `<h4 style="margin-top: 20px; color: #667eea;">📚 This Chapter (Class ${userData.selectedClass} - ${userData.selectedChapter.name})</h4>`;
-                leaderboard.appendChild(chapterSection);
-                
-                // Sort chapter results properly
-                currentChapterResults.sort((a, b) => {
-                    if (b.percentage !== a.percentage) {
-                        return b.percentage - a.percentage;
-                    }
-                    return (a.timeTaken || 0) - (b.timeTaken || 0);
-                });
-                
-                currentChapterResults.forEach((result, index) => {
-                    const entry = document.createElement('div');
-                    entry.className = 'leaderboard-entry chapter-specific';
-                    
-                    const isCurrentUser = result.userId === currentUser?.uid;
-                    if (isCurrentUser) {
-                        entry.classList.add('current-user');
-                    }
-                    
-                    entry.innerHTML = `
-                        <div class="rank-info">
-                            <span class="rank">#${index + 1}</span>
-                            <span class="user-name">${result.displayName || result.name || 'Anonymous'}${isCurrentUser ? ' (You)' : ''}</span>
-                        </div>
-                        <div class="test-info">
-                            <span class="score">${result.percentage}% (${result.score}/${result.totalQuestions})</span>
-                            <span class="grade">Grade: ${result.grade}</span>
-                        </div>
-                        <div class="date-time">
-                            <span class="timestamp">${result.dateTime || result.timestamp.toLocaleString('en-IN')}</span>
-                        </div>
-                    `;
-                    leaderboard.appendChild(entry);
-                });
-            }
+        });
+        
+        content.innerHTML = `<h3>📚 Chapter Leaderboard</h3><h4>Class ${userData.selectedClass} - ${userData.selectedChapter.name}</h4>`;
+        
+        if (chapterResults.length === 0) {
+            content.innerHTML += '<p>No results for this chapter yet. Be the first!</p>';
+            return;
         }
         
+        // Sort results properly
+        chapterResults.sort((a, b) => {
+            if (b.percentage !== a.percentage) {
+                return b.percentage - a.percentage;
+            }
+            return (a.timeTaken || 0) - (b.timeTaken || 0);
+        });
+        
+        chapterResults.forEach((result, index) => {
+            const entry = document.createElement('div');
+            entry.className = 'leaderboard-entry chapter-specific';
+            
+            const isCurrentUser = result.userId === currentUser?.uid;
+            if (isCurrentUser) {
+                entry.classList.add('current-user');
+            }
+            
+            entry.innerHTML = `
+                <div class="rank-info">
+                    <span class="rank">#${index + 1}</span>
+                    <span class="user-name">${result.displayName || result.name || 'Anonymous'}${isCurrentUser ? ' (You)' : ''}</span>
+                </div>
+                <div class="test-info">
+                    <span class="score">${result.percentage}% (${result.score}/${result.totalQuestions})</span>
+                    <span class="grade">Grade: ${result.grade}</span>
+                </div>
+                <div class="date-time">
+                    <span class="timestamp">${result.dateTime || result.timestamp.toLocaleString('en-IN')}</span>
+                </div>
+            `;
+            content.appendChild(entry);
+        });
+        
     } catch (error) {
-        console.error('Error loading leaderboard from Firestore:', error);
-        leaderboard.innerHTML = '<h3>🏆 Global Leaderboard</h3><p>Unable to load global leaderboard. Showing local results...</p>';
-        // Fallback to localStorage
-        displayLocalLeaderboard();
+        console.error('Error loading chapter leaderboard:', error);
+        content.innerHTML = `<h3>📚 Chapter Leaderboard</h3><h4>Class ${userData.selectedClass} - ${userData.selectedChapter.name}</h4><p>Unable to load chapter leaderboard.</p>`;
     }
 }
 
 // Fallback function for localStorage leaderboard
-function displayLocalLeaderboard() {
+function displayLocalLeaderboardFallback() {
     const allResults = JSON.parse(localStorage.getItem('testResults') || '[]');
-    const leaderboard = document.getElementById('leaderboard');
+    const content = document.getElementById('leaderboard-content');
     
-    leaderboard.innerHTML = '<h3>🏆 Local Leaderboard</h3>';
+    content.innerHTML = '<h3>🏆 Local Leaderboard (Offline)</h3>';
     
     if (allResults.length === 0) {
-        leaderboard.innerHTML += '<p>No local results found.</p>';
+        content.innerHTML += '<p>No local results found.</p>';
         return;
     }
     
@@ -472,7 +517,7 @@ function displayLocalLeaderboard() {
         const entry = document.createElement('div');
         entry.className = 'leaderboard-entry detailed';
         
-        const isCurrentUser = result.userId === currentUser.uid;
+        const isCurrentUser = result.userId === currentUser?.uid;
         if (isCurrentUser) {
             entry.classList.add('current-user');
         }
@@ -491,7 +536,7 @@ function displayLocalLeaderboard() {
                 <span class="timestamp">${result.dateTime || new Date(result.timestamp).toLocaleString('en-IN')}</span>
             </div>
         `;
-        leaderboard.appendChild(entry);
+        content.appendChild(entry);
     });
 }
 
