@@ -238,7 +238,53 @@ function logout() {
     });
 }
 
-// Feedback system functions
+// // Feedback system functions
+// function showFeedbackModal() {
+//     document.getElementById('feedback-modal').style.display = 'flex';
+// }
+
+// function closeFeedbackModal() {
+//     document.getElementById('feedback-modal').style.display = 'none';
+//     document.getElementById('feedback-message').value = '';
+//     document.getElementById('feedback-email').value = '';
+// }
+
+// async function sendFeedback() {
+//     const message = document.getElementById('feedback-message').value.trim();
+//     const email = document.getElementById('feedback-email').value.trim();
+    
+//     if (!message) {
+//         alert('Please enter your message or request');
+//         return;
+//     }
+    
+//     if (!email) {
+//         alert('Please enter your email address');
+//         return;
+//     }
+    
+//     try {
+//         const feedbackData = {
+//             message: message,
+//             email: email,
+//             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+//             dateTime: new Date().toLocaleString('en-IN'),
+//             type: 'password_reset_request'
+//         };
+        
+//         await window.db.collection('feedback').add(feedbackData);
+//         alert('Your request has been sent successfully! We will contact you soon.');
+//         closeFeedbackModal();
+//     } catch (error) {
+//         console.error('Error sending feedback:', error);
+//         alert('Error sending request. Please try again later.');
+//     }
+// }
+
+// Ensure this script runs after your Firebase initialization code
+// and after the DOM content is loaded.
+
+// --- Your existing Feedback system functions (keep these if you want general feedback) ---
 function showFeedbackModal() {
     document.getElementById('feedback-modal').style.display = 'flex';
 }
@@ -246,40 +292,108 @@ function showFeedbackModal() {
 function closeFeedbackModal() {
     document.getElementById('feedback-modal').style.display = 'none';
     document.getElementById('feedback-message').value = '';
-    document.getElementById('feedback-email').value = '';
+    // document.getElementById('feedback-email').value = ''; // You might want to keep email for feedback too
 }
 
 async function sendFeedback() {
     const message = document.getElementById('feedback-message').value.trim();
-    const email = document.getElementById('feedback-email').value.trim();
+    const email = document.getElementById('feedback-email') ? document.getElementById('feedback-email').value.trim() : ''; // Handle if email input isn't present
     
     if (!message) {
         alert('Please enter your message or request');
         return;
     }
     
-    if (!email) {
-        alert('Please enter your email address');
-        return;
-    }
+    // Email is optional for general feedback, adjust as needed
+    // if (!email) {
+    //     alert('Please enter your email address');
+    //     return;
+    // }
     
     try {
         const feedbackData = {
             message: message,
-            email: email,
+            email: email, // Could be empty if not required
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            dateTime: new Date().toLocaleString('en-IN'),
-            type: 'password_reset_request'
+            // dateTime: new Date().toLocaleString('en-IN'), // serverTimestamp() is generally sufficient
+            type: 'general_feedback' // Renamed for clarity
         };
         
         await window.db.collection('feedback').add(feedbackData);
-        alert('Your request has been sent successfully! We will contact you soon.');
+        alert('Your feedback has been sent successfully! Thank you.');
         closeFeedbackModal();
     } catch (error) {
         console.error('Error sending feedback:', error);
-        alert('Error sending request. Please try again later.');
+        alert('Error sending feedback. Please try again later.');
     }
 }
+// --- End of existing Feedback system functions ---
+
+
+// --- NEW FUNCTION for Password Reset ---
+document.addEventListener('DOMContentLoaded', () => {
+    const passwordResetEmailInput = document.getElementById('password-reset-email-input');
+    const sendPasswordResetButton = document.getElementById('send-password-reset-button');
+    const passwordResetMessage = document.getElementById('password-reset-message');
+    const passwordResetError = document.getElementById('password-reset-error');
+
+    if (sendPasswordResetButton && passwordResetEmailInput) {
+        sendPasswordResetButton.addEventListener('click', async () => {
+            const email = passwordResetEmailInput.value.trim();
+
+            // Clear previous messages
+            passwordResetMessage.textContent = '';
+            passwordResetError.textContent = '';
+
+            if (!email) {
+                passwordResetError.textContent = 'Please enter your email address.';
+                return;
+            }
+
+            const auth = window.auth; // Access the auth object initialized in your setup
+
+            if (!auth) {
+                passwordResetError.textContent = 'Firebase Authentication is not initialized.';
+                console.error('Firebase Auth not available globally.');
+                return;
+            }
+
+            try {
+                // This is the core Firebase Authentication call for password reset
+                await auth.sendPasswordResetEmail(email);
+                passwordResetMessage.textContent = 'A password reset link has been sent to ' + email + '. Please check your inbox (and spam folder)!';
+                passwordResetEmailInput.value = ''; // Clear the input field after successful sending
+            } catch (error) {
+                console.error('Error sending password reset email:', error);
+                let errorMessage = 'Failed to send password reset email. Please try again.';
+
+                // Customize error messages based on Firebase error codes for better UX
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        // For security reasons (email enumeration protection), Firebase might not explicitly
+                        // tell you if a user doesn't exist. It might behave as if an email was sent.
+                        // You can choose to be more generic here or specific if email enumeration is off.
+                        errorMessage = 'If an account with that email exists, a password reset link has been sent.';
+                        // Or, if you want to be specific (less secure if not handled carefully):
+                        // errorMessage = 'There is no user corresponding to this email address.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'The email address is not valid.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Too many password reset requests. Please wait a moment and try again.';
+                        break;
+                    default:
+                        errorMessage += ` (${error.message})`;
+                        break;
+                }
+                passwordResetError.textContent = errorMessage;
+            }
+        });
+    }
+});
+// --- END NEW FUNCTION ---
+
 
 // Check if user is already logged in
 window.auth.onAuthStateChanged((user) => {
