@@ -58,6 +58,10 @@ async function signup() {
         const userCredential = await window.auth.createUserWithEmailAndPassword(email, password);
         currentUser = userCredential.user;
         
+        // Optional: Send email verification
+        // await currentUser.sendEmailVerification();
+        // alert('Please check your email to verify your account');
+        
         // Save user to localStorage for demo mode
         registeredUsers.push({
             uid: currentUser.uid,
