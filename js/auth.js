@@ -281,9 +281,6 @@ async function sendFeedback() {
     }
 }
 
-
-
-
 // Check if user is already logged in
 window.auth.onAuthStateChanged((user) => {
     if (user) {
@@ -309,4 +306,3 @@ window.auth.onAuthStateChanged((user) => {
         });
     }
 });
-
