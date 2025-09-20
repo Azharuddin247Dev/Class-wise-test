@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Leaderboard - WB Math Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-header">
+            <h1>🏆 Global Leaderboard</h1>
+            <p>Top Performers Across All Classes</p>
+        </div>
+        
+        <div class="leaderboard-filters">
+            <button onclick="showAll()">All Results</button>
+            <button onclick="filterByClass(5)">Class V</button>
+            <button onclick="filterByClass(6)">Class VI</button>
+            <button onclick="filterByClass(7)">Class VII</button>
+            <button onclick="filterByClass(8)">Class VIII</button>
+        </div>
+        
+        <div id="leaderboard-content"></div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html">← Back to Main App</a>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config-simple.js"></script>
+    
+    <script>
+        let allResults = [];
+        
+        async function loadGlobalLeaderboard() {
+            const content = document.getElementById('leaderboard-content');
+            content.innerHTML = '<p>Loading global results...</p>';
+            
+            try {
+                // Try to load from Firestore first
+                const snapshot = await window.db.collection('testResults')
+                    .orderBy('percentage', 'desc')
+                    .orderBy('timestamp', 'desc')
+                    .limit(100)
+                    .get();
+                
+                allResults = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    allResults.push({
+                        id: doc.id,
+                        ...data,
+                        timestamp: data.timestamp ? data.timestamp.toDate() : new Date(data.dateTime || Date.now())
+                    });
+                });
+                
+                if (allResults.length === 0) {
+                    // Fallback to localStorage
+                    allResults = JSON.parse(localStorage.getItem('testResults') || '[]');
+                }
+                
+            } catch (error) {
+                console.log('Using local storage for leaderboard');
+                allResults = JSON.parse(localStorage.getItem('testResults') || '[]');
+            }
+            
+            displayResults(allResults);
+        }
+        
+        function displayResults(results) {
+            const content = document.getElementById('leaderboard-content');
+            
+            if (results.length === 0) {
+                content.innerHTML = '<p>No results found. Take some tests to see the leaderboard!</p>';
+                return;
+            }
+            
+            // Sort results
+            results.sort((a, b) => {
+                if (b.percentage !== a.percentage) {
+                    return b.percentage - a.percentage;
+                }
+                return (a.timeTaken || 0) - (b.timeTaken || 0);
+            });
+            
+            content.innerHTML = '<h3>🏆 Global Rankings</h3>';
+            
+            results.forEach((result, index) => {
+                const entry = document.createElement('div');
+                entry.className = 'leaderboard-entry detailed';
+                
+                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
+                
+                entry.innerHTML = `
+                    <div class="rank-info">
+                        <span class="rank">${medal} #${index + 1}</span>
+                        <span class="user-name">${result.displayName || result.name || 'Anonymous'}</span>
+                    </div>
+                    <div class="test-info">
+                        <span class="class-chapter">Class ${result.class} - ${result.chapter}</span>
+                        <span class="score">${result.percentage}% (${result.score}/${result.totalQuestions})</span>
+                    </div>
+                    <div class="date-time">
+                        <span class="grade">Grade: ${result.grade}</span>
+                        <span class="timestamp">${result.dateTime || result.timestamp.toLocaleString('en-IN')}</span>
+                    </div>
+                `;
+                content.appendChild(entry);
+            });
+        }
+        
+        function showAll() {
+            displayResults(allResults);
+        }
+        
+        function filterByClass(classNum) {
+            const filtered = allResults.filter(result => result.class == classNum);
+            displayResults(filtered);
+        }
+        
+        // Load leaderboard when page loads
+        window.addEventListener('load', () => {
+            setTimeout(loadGlobalLeaderboard, 1000);
+        });
+    </script>
+</body>
+</html>
