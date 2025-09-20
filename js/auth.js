@@ -6,6 +6,11 @@ function showLogin() {
     document.getElementById('signup-form').style.display = 'none';
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
+    
+    // Clear signup form fields
+    document.getElementById('signup-email').value = '';
+    document.getElementById('signup-password').value = '';
+    document.getElementById('confirm-password').value = '';
 }
 
 function showSignup() {
@@ -13,6 +18,10 @@ function showSignup() {
     document.getElementById('signup-form').style.display = 'block';
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
+    
+    // Clear login form fields
+    document.getElementById('login-email').value = '';
+    document.getElementById('login-password').value = '';
 }
 
 async function signup() {
@@ -35,14 +44,46 @@ async function signup() {
         return;
     }
     
+    // Check if user already exists
+    const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+    const userExists = registeredUsers.find(user => user.email === email);
+    
+    if (userExists) {
+        alert('Account already exists. Please login instead.');
+        showLogin();
+        return;
+    }
+    
     try {
         const userCredential = await window.auth.createUserWithEmailAndPassword(email, password);
         currentUser = userCredential.user;
+        
+        // Save user to localStorage for demo mode
+        registeredUsers.push({
+            uid: currentUser.uid,
+            email: email,
+            password: password,
+            signupDate: new Date().toISOString()
+        });
+        localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+        
         showNameInput();
     } catch (error) {
         console.error('Signup error:', error);
+        
         // For demo purposes, create a mock user if Firebase fails
-        currentUser = { uid: 'demo-' + Date.now(), email: email };
+        const mockUid = 'demo-' + Date.now();
+        currentUser = { uid: mockUid, email: email };
+        
+        // Save user to localStorage for demo mode
+        registeredUsers.push({
+            uid: mockUid,
+            email: email,
+            password: password,
+            signupDate: new Date().toISOString()
+        });
+        localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+        
         showNameInput();
     }
 }
@@ -71,8 +112,25 @@ async function login() {
         }
     } catch (error) {
         console.error('Login error:', error);
-        // For demo purposes, create a mock user if Firebase fails
-        currentUser = { uid: 'demo-' + Date.now(), email: email };
+        
+        // Check if user exists in localStorage (signed up before)
+        const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+        const userExists = registeredUsers.find(user => user.email === email);
+        
+        if (!userExists) {
+            alert('Account not found. Please sign up first.');
+            showSignup();
+            return;
+        }
+        
+        // Verify password for demo mode
+        if (userExists.password !== password) {
+            alert('Invalid password. Please try again.');
+            return;
+        }
+        
+        // Create mock user for demo
+        currentUser = { uid: userExists.uid, email: email };
         
         // Check localStorage for saved name
         const savedName = localStorage.getItem(`userName_${currentUser.uid}`);
