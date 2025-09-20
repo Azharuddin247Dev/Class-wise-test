@@ -312,22 +312,26 @@ async function saveTestResult(score, percentage) {
     };
     
     try {
-        // Save to Firestore for global leaderboard
-        const docRef = await window.db.collection('testResults').add(result);
-        console.log('Result saved to Firestore with ID:', docRef.id);
-        
-        // Also save to localStorage as backup
-        const localResults = JSON.parse(localStorage.getItem('testResults') || '[]');
-        localResults.push({...result, timestamp: Date.now(), firestoreId: docRef.id});
-        localStorage.setItem('testResults', JSON.stringify(localResults));
+        // Try to save to Firestore for global leaderboard
+        if (window.db && window.firebase) {
+            const docRef = await window.db.collection('testResults').add(result);
+            console.log('Result saved to Firestore with ID:', docRef.id);
+            
+            // Also save to localStorage as backup
+            const localResults = JSON.parse(localStorage.getItem('testResults') || '[]');
+            localResults.push({...result, timestamp: Date.now(), firestoreId: docRef.id});
+            localStorage.setItem('testResults', JSON.stringify(localResults));
+        } else {
+            throw new Error('Firebase not available');
+        }
         
     } catch (error) {
-        console.error('Error saving to Firestore:', error);
+        console.log('Saving to localStorage (Firebase not available):', error.message);
         // Fallback to localStorage if Firestore fails
         const results = JSON.parse(localStorage.getItem('testResults') || '[]');
         results.push({...result, timestamp: Date.now()});
         localStorage.setItem('testResults', JSON.stringify(results));
-        throw error; // Re-throw to handle in calling function
+        // Don't throw error, just continue with localStorage
     }
 }
 
@@ -347,70 +351,80 @@ async function showGlobalLeaderboard() {
     const content = document.getElementById('leaderboard-content');
     content.innerHTML = '<h3>🌍 Global Leaderboard - All Tests</h3><p>Loading...</p>';
     
+    let allResults = [];
+    
+    // Try Firebase first, then fallback to localStorage
     try {
-        // Get all results from Firestore
-        const snapshot = await window.db.collection('testResults')
-            .orderBy('percentage', 'desc')
-            .orderBy('timestamp', 'desc')
-            .limit(20)
-            .get();
-        
-        const allResults = [];
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            allResults.push({
-                id: doc.id,
-                ...data,
-                timestamp: data.timestamp ? data.timestamp.toDate() : new Date(data.dateTime || Date.now())
+        if (window.db && window.firebase) {
+            const snapshot = await window.db.collection('testResults')
+                .orderBy('percentage', 'desc')
+                .orderBy('timestamp', 'desc')
+                .limit(20)
+                .get();
+            
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                allResults.push({
+                    id: doc.id,
+                    ...data,
+                    timestamp: data.timestamp ? data.timestamp.toDate() : new Date(data.dateTime || Date.now())
+                });
             });
-        });
+        }
+    } catch (error) {
+        console.log('Firebase not available, using localStorage:', error);
+    }
+    
+    // If no Firebase results, use localStorage
+    if (allResults.length === 0) {
+        const localResults = JSON.parse(localStorage.getItem('testResults') || '[]');
+        allResults = localResults.map(result => ({
+            ...result,
+            timestamp: result.timestamp ? new Date(result.timestamp) : new Date(result.dateTime || Date.now())
+        }));
+    }
+    
+    content.innerHTML = '<h3>🌍 Global Leaderboard - All Tests</h3>';
+    
+    if (allResults.length === 0) {
+        content.innerHTML += '<p>No results yet. Be the first to take a test!</p>';
+        return;
+    }
+    
+    // Sort results properly
+    allResults.sort((a, b) => {
+        if (b.percentage !== a.percentage) {
+            return b.percentage - a.percentage;
+        }
+        return (a.timeTaken || 0) - (b.timeTaken || 0);
+    });
+    
+    // Limit to top 20
+    allResults.slice(0, 20).forEach((result, index) => {
+        const entry = document.createElement('div');
+        entry.className = 'leaderboard-entry detailed';
         
-        content.innerHTML = '<h3>🌍 Global Leaderboard - All Tests</h3>';
-        
-        if (allResults.length === 0) {
-            content.innerHTML += '<p>No results yet. Be the first to take a test!</p>';
-            return;
+        const isCurrentUser = result.userId === currentUser?.uid;
+        if (isCurrentUser) {
+            entry.classList.add('current-user');
         }
         
-        // Sort results properly
-        allResults.sort((a, b) => {
-            if (b.percentage !== a.percentage) {
-                return b.percentage - a.percentage;
-            }
-            return (a.timeTaken || 0) - (b.timeTaken || 0);
-        });
-        
-        allResults.forEach((result, index) => {
-            const entry = document.createElement('div');
-            entry.className = 'leaderboard-entry detailed';
-            
-            const isCurrentUser = result.userId === currentUser?.uid;
-            if (isCurrentUser) {
-                entry.classList.add('current-user');
-            }
-            
-            entry.innerHTML = `
-                <div class="rank-info">
-                    <span class="rank">#${index + 1}</span>
-                    <span class="user-name">${result.displayName || result.name || 'Anonymous'}${isCurrentUser ? ' (You)' : ''}</span>
-                </div>
-                <div class="test-info">
-                    <span class="class-chapter">Class ${result.class} - ${result.chapter}</span>
-                    <span class="score">${result.percentage}% (${result.score}/${result.totalQuestions})</span>
-                </div>
-                <div class="date-time">
-                    <span class="grade">Grade: ${result.grade}</span>
-                    <span class="timestamp">${result.dateTime || result.timestamp.toLocaleString('en-IN')}</span>
-                </div>
-            `;
-            content.appendChild(entry);
-        });
-        
-    } catch (error) {
-        console.error('Error loading global leaderboard:', error);
-        content.innerHTML = '<h3>🌍 Global Leaderboard</h3><p>Unable to load global leaderboard. Showing local results...</p>';
-        displayLocalLeaderboardFallback();
-    }
+        entry.innerHTML = `
+            <div class="rank-info">
+                <span class="rank">#${index + 1}</span>
+                <span class="user-name">${result.displayName || result.name || 'Anonymous'}${isCurrentUser ? ' (You)' : ''}</span>
+            </div>
+            <div class="test-info">
+                <span class="class-chapter">Class ${result.class} - ${result.chapter}</span>
+                <span class="score">${result.percentage}% (${result.score}/${result.totalQuestions})</span>
+            </div>
+            <div class="date-time">
+                <span class="grade">Grade: ${result.grade}</span>
+                <span class="timestamp">${result.dateTime || result.timestamp.toLocaleString('en-IN')}</span>
+            </div>
+        `;
+        content.appendChild(entry);
+    });
 }
 
 async function showLocalLeaderboard() {
@@ -427,69 +441,83 @@ async function showLocalLeaderboard() {
     
     content.innerHTML = `<h3>📚 Chapter Leaderboard</h3><h4>Class ${userData.selectedClass} - ${userData.selectedChapter.name}</h4><p>Loading...</p>`;
     
+    let chapterResults = [];
+    
+    // Try Firebase first, then fallback to localStorage
     try {
-        const snapshot = await window.db.collection('testResults')
-            .where('class', '==', userData.selectedClass)
-            .where('chapterId', '==', userData.selectedChapter.id)
-            .orderBy('percentage', 'desc')
-            .orderBy('timestamp', 'desc')
-            .limit(15)
-            .get();
-        
-        const chapterResults = [];
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            chapterResults.push({
-                id: doc.id,
-                ...data,
-                timestamp: data.timestamp ? data.timestamp.toDate() : new Date(data.dateTime || Date.now())
+        if (window.db && window.firebase) {
+            const snapshot = await window.db.collection('testResults')
+                .where('class', '==', userData.selectedClass)
+                .where('chapterId', '==', userData.selectedChapter.id)
+                .orderBy('percentage', 'desc')
+                .orderBy('timestamp', 'desc')
+                .limit(15)
+                .get();
+            
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                chapterResults.push({
+                    id: doc.id,
+                    ...data,
+                    timestamp: data.timestamp ? data.timestamp.toDate() : new Date(data.dateTime || Date.now())
+                });
             });
-        });
+        }
+    } catch (error) {
+        console.log('Firebase not available, using localStorage:', error);
+    }
+    
+    // If no Firebase results, filter localStorage results
+    if (chapterResults.length === 0) {
+        const localResults = JSON.parse(localStorage.getItem('testResults') || '[]');
+        chapterResults = localResults
+            .filter(result => result.class === userData.selectedClass && result.chapterId === userData.selectedChapter.id)
+            .map(result => ({
+                ...result,
+                timestamp: result.timestamp ? new Date(result.timestamp) : new Date(result.dateTime || Date.now())
+            }));
+    }
+    
+    content.innerHTML = `<h3>📚 Chapter Leaderboard</h3><h4>Class ${userData.selectedClass} - ${userData.selectedChapter.name}</h4>`;
+    
+    if (chapterResults.length === 0) {
+        content.innerHTML += '<p>No results for this chapter yet. Be the first!</p>';
+        return;
+    }
+    
+    // Sort results properly
+    chapterResults.sort((a, b) => {
+        if (b.percentage !== a.percentage) {
+            return b.percentage - a.percentage;
+        }
+        return (a.timeTaken || 0) - (b.timeTaken || 0);
+    });
+    
+    // Limit to top 15
+    chapterResults.slice(0, 15).forEach((result, index) => {
+        const entry = document.createElement('div');
+        entry.className = 'leaderboard-entry chapter-specific';
         
-        content.innerHTML = `<h3>📚 Chapter Leaderboard</h3><h4>Class ${userData.selectedClass} - ${userData.selectedChapter.name}</h4>`;
-        
-        if (chapterResults.length === 0) {
-            content.innerHTML += '<p>No results for this chapter yet. Be the first!</p>';
-            return;
+        const isCurrentUser = result.userId === currentUser?.uid;
+        if (isCurrentUser) {
+            entry.classList.add('current-user');
         }
         
-        // Sort results properly
-        chapterResults.sort((a, b) => {
-            if (b.percentage !== a.percentage) {
-                return b.percentage - a.percentage;
-            }
-            return (a.timeTaken || 0) - (b.timeTaken || 0);
-        });
-        
-        chapterResults.forEach((result, index) => {
-            const entry = document.createElement('div');
-            entry.className = 'leaderboard-entry chapter-specific';
-            
-            const isCurrentUser = result.userId === currentUser?.uid;
-            if (isCurrentUser) {
-                entry.classList.add('current-user');
-            }
-            
-            entry.innerHTML = `
-                <div class="rank-info">
-                    <span class="rank">#${index + 1}</span>
-                    <span class="user-name">${result.displayName || result.name || 'Anonymous'}${isCurrentUser ? ' (You)' : ''}</span>
-                </div>
-                <div class="test-info">
-                    <span class="score">${result.percentage}% (${result.score}/${result.totalQuestions})</span>
-                    <span class="grade">Grade: ${result.grade}</span>
-                </div>
-                <div class="date-time">
-                    <span class="timestamp">${result.dateTime || result.timestamp.toLocaleString('en-IN')}</span>
-                </div>
-            `;
-            content.appendChild(entry);
-        });
-        
-    } catch (error) {
-        console.error('Error loading chapter leaderboard:', error);
-        content.innerHTML = `<h3>📚 Chapter Leaderboard</h3><h4>Class ${userData.selectedClass} - ${userData.selectedChapter.name}</h4><p>Unable to load chapter leaderboard.</p>`;
-    }
+        entry.innerHTML = `
+            <div class="rank-info">
+                <span class="rank">#${index + 1}</span>
+                <span class="user-name">${result.displayName || result.name || 'Anonymous'}${isCurrentUser ? ' (You)' : ''}</span>
+            </div>
+            <div class="test-info">
+                <span class="score">${result.percentage}% (${result.score}/${result.totalQuestions})</span>
+                <span class="grade">Grade: ${result.grade}</span>
+            </div>
+            <div class="date-time">
+                <span class="timestamp">${result.dateTime || result.timestamp.toLocaleString('en-IN')}</span>
+            </div>
+        `;
+        content.appendChild(entry);
+    });
 }
 
 // Fallback function for localStorage leaderboard
