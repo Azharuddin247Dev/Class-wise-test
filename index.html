@@ -16,7 +16,7 @@
                 <h1>West Bengal Mathematics Portal</h1>
                 <p>Classes V to VIII</p>
                 <div id="demo-notice" style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 14px; color: #856404;">
-                    📚 <strong>Demo Mode:</strong> You can use any email/password to test the application. All data is stored locally.
+                    📚 <strong>Demo Mode:</strong> Sign up first with any email/password, then login to access the portal. All data is stored locally.
                 </div>
             </div>
 
@@ -181,6 +181,16 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config-simple.js"></script>
     <script src="data/chapters.js"></script>
+    <script src="js/chapter-data-fallback.js"></script>
+    <script>
+        // Debug: Check if chapters loaded
+        window.addEventListener('load', () => {
+            console.log('Chapter data check:', window.classChapters ? 'Loaded' : 'Not loaded');
+            if (window.classChapters) {
+                console.log('Available classes:', Object.keys(window.classChapters));
+            }
+        });
+    </script>
     <script src="js/chapter-loader.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/app.js"></script>
