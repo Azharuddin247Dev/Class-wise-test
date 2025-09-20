@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -21,8 +21,8 @@
             </div>
 
             <div class="auth-tabs">
-                <button class="tab-btn active" onclick="showLogin(event)">Login</button>
-                <button class="tab-btn" onclick="showSignup(event)">Sign Up</button>
+                <button class="tab-btn active" onclick="showLogin()">Login</button>
+                <button class="tab-btn" onclick="showSignup()">Sign Up</button>
             </div>
 
             <div id="login-form" class="auth-form">
@@ -30,7 +30,7 @@
                 <input type="email" id="login-email" placeholder="Email ID" required>
                 <input type="password" id="login-password" placeholder="Password" required>
                 <button onclick="login()">Login</button>
-                <p class="forgot-password"><a href="#" onclick="showPasswordResetForm(event)">Forgot Password?</a></p> <!-- UPDATED LINK -->
+                <p class="forgot-password"><a href="#" onclick="showFeedbackModal()">Forgot Password? Request Reset</a></p>
             </div>
 
             <div id="signup-form" class="auth-form" style="display: none;">
@@ -41,18 +41,6 @@
                 <button onclick="signup()">Sign Up</button>
             </div>
         </div>
-
-        <!-- NEW: Password Reset Screen -->
-        <div id="password-reset-container" style="display: none;" class="auth-form">
-            <h2>Reset Your Password</h2>
-            <p>Enter your email address and we'll send you a link to reset your password.</p>
-            <input type="email" id="password-reset-email-input" placeholder="Your email address" required />
-            <button onclick="handlePasswordResetRequest()">Send Reset Link</button>
-            <p id="password-reset-message" style="color: green;"></p>
-            <p id="password-reset-error" style="color: red;"></p>
-            <p class="back-to-login"><a href="#" onclick="showLogin(event)">Back to Login</a></p>
-        </div>
-
 
         <!-- Name Input Screen -->
         <div id="name-container" style="display: none;">
@@ -174,15 +162,14 @@
             </div>
         </div>
 
-        <!-- Feedback Modal (UPDATED CONTENT) -->
+        <!-- Feedback Modal -->
         <div id="feedback-modal" class="modal" style="display: none;">
             <div class="modal-content">
-                <h3>Send Feedback</h3> <!-- Changed title -->
-                <p>Have a suggestion or found a bug? Let us know!</p> <!-- Added helpful text -->
-                <textarea id="feedback-message" placeholder="Please describe your issue or suggestion..." rows="5"></textarea> <!-- Changed placeholder -->
-                <input type="email" id="feedback-email" placeholder="Your Email (optional, for reply)"> <!-- Changed placeholder and made optional explicit -->
+                <h3>Send Feedback / Password Reset Request</h3>
+                <textarea id="feedback-message" placeholder="Please describe your issue or request password reset for your email..." rows="5"></textarea>
+                <input type="email" id="feedback-email" placeholder="Your Email (for password reset)">
                 <div class="modal-buttons">
-                    <button onclick="sendFeedback()">Send Feedback</button> <!-- Changed button text -->
+                    <button onclick="sendFeedback()">Send Request</button>
                     <button onclick="closeFeedbackModal()">Cancel</button>
                 </div>
             </div>
