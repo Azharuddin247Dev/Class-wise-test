@@ -287,6 +287,13 @@ async function saveTestResult(score, percentage) {
     const displayName = `${userData.name}${emailSuffix}`;
     
     const now = new Date();
+    const timeTaken = Date.now() - userData.testStartTime;
+    
+    // Calculate detailed performance metrics
+    const correctAnswers = userData.testAnswers.filter((answer, index) => 
+        answer === userData.testQuestions[index].correct
+    ).length;
+    
     const result = {
         userId: currentUser.uid,
         displayName: displayName,
@@ -308,7 +315,18 @@ async function saveTestResult(score, percentage) {
             minute: '2-digit',
             hour12: true
         }),
-        timeTaken: Date.now() - userData.testStartTime
+        timeTaken: timeTaken,
+        // Enhanced performance tracking
+        correctAnswers: correctAnswers,
+        incorrectAnswers: userData.testQuestions.length - correctAnswers,
+        averageTimePerQuestion: Math.round(timeTaken / userData.testQuestions.length / 1000),
+        difficulty: percentage >= 80 ? 'Easy' : percentage >= 60 ? 'Medium' : 'Hard',
+        sessionId: 'session_' + Date.now(),
+        deviceInfo: {
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            language: navigator.language
+        }
     };
     
     try {
