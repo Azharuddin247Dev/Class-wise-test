@@ -95,8 +95,8 @@ const class8Chapter1 = {
         },
         {
             question: "Simplify -15/20.",
-            options: ["-3/4", "3/4", "-5/4", "5/4"],
-            correct: 0
+            options: ["3/4", "-3/4", "-5/4", "5/4"],
+            correct: 1
         },
         {
             question: "0 is a rational number?",
@@ -105,8 +105,8 @@ const class8Chapter1 = {
         },
         {
             question: "Add 2/3 + 3/4.",
-            options: ["17/12", "5/7", "7/12", "1/2"],
-            correct: 0
+            options: ["5/7", "7/12", "1/2","17/12"],
+            correct: 3
         },
         {
             question: "Multiply 2/5 × 3/7.",
@@ -115,8 +115,8 @@ const class8Chapter1 = {
         },
         {
             question: "Divide 3/4 ÷ 2/5.",
-            options: ["15/8", "6/9", "5/8", "8/15"],
-            correct: 0
+            options: ["5/8", "6/9", "15/8", "8/15"],
+            correct: 2
         },
         {
             question: "Convert 0.6 to rational number.",
@@ -125,8 +125,8 @@ const class8Chapter1 = {
         },
         {
             question: "Compare 7/8 and 5/6. Which is greater?",
-            options: ["7/8", "5/6", "Equal", "Cannot say"],
-            correct: 0
+            options: ["5/6", "Equal", "Cannot say","7/8"],
+            correct: 3
         },
         {
             question: "Are rational numbers closed under subtraction?",
@@ -138,3 +138,4 @@ const class8Chapter1 = {
 
 // Export for dynamic loading
 window.class8Chapter1 = class8Chapter1;
+
