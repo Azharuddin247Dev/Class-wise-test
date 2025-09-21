@@ -95,7 +95,7 @@ const class5Chapter9 = {
         },
         {
             question: "₹5 + ₹3.75 = ?",
-            options: ["₹8.25", "₹7.25", "₹6.75", "₹9.25"],
+            options: ["₹8.75", "₹7.25", "₹6.75", "₹9.25"],
             correct: 0
         },
         {
@@ -138,3 +138,4 @@ const class5Chapter9 = {
 
 // Export for dynamic loading
 window.class5Chapter9 = class5Chapter9;
+
