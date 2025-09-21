@@ -86,7 +86,7 @@ const class7Chapter10 = {
         {
             question: "Perimeter of a rectangle 8m × 5m?",
             options: ["26m", "40m", "13m", "30m"],
-            correct: 1
+            correct: 0
         },
         {
             question: "Area of a square with side 6cm?",
@@ -95,13 +95,13 @@ const class7Chapter10 = {
         },
         {
             question: "Circumference of circle with radius 7m (π = 22/7)?",
-            options: ["44 m", "42 m", "14 m", "154 m"],
+            options: ["42 m", "44 m", "14 m", "154 m"],
             correct: 1
         },
         {
             question: "Area of triangle with base 10cm and height 6cm?",
-            options: ["30 cm²", "60 cm²", "16 cm²", "20 cm²"],
-            correct: 0
+            options: ["16 cm²", "60 cm²", "30 cm²", "20 cm²"],
+            correct: 2
         },
         {
             question: "Perimeter of a triangle with sides 3cm, 4cm, 5cm?",
@@ -110,8 +110,8 @@ const class7Chapter10 = {
         },
         {
             question: "Area of circle with radius 14cm (π = 22/7)?",
-            options: ["616 cm²", "154 cm²", "308 cm²", "198 cm²"],
-            correct: 2
+            options: ["198 cm²", "154 cm²", "308 cm²", "616 cm²"],
+            correct: 3
         },
         {
             question: "Formula for perimeter of square?",
@@ -130,11 +130,12 @@ const class7Chapter10 = {
         },
         {
             question: "Perimeter of irregular shape?",
-            options: ["Add all sides", "Multiply sides", "Subtract sides", "Divide sides"],
-            correct: 0
+            options: ["Multiply sides", "Subtract sides", "Divide sides","Add all sides"],
+            correct: 3
         }
     ]
 };
 
 // Export for dynamic loading
 window.class7Chapter10 = class7Chapter10;
+
