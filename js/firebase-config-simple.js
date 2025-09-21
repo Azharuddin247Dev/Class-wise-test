@@ -1,4 +1,4 @@
-// Firebase configuration - Replace with your project config
+// Firebase configuration - Demo setup for testing
 const firebaseConfig = {
   apiKey: "AIzaSyBwL1GY8Fu4eK4e1LwBrDNspZi-Y87rVxA",
   authDomain: "class-wise-test-edd7d.firebaseapp.com",
@@ -13,6 +13,10 @@ const firebaseConfig = {
 try {
   firebase.initializeApp(firebaseConfig);
 
+  // Initialize App Check
+  const appCheck = firebase.appCheck();
+  appCheck.activate('6LdMi9ArAAAAAI-fo4DR363moRFh2m_zvODuGugm', true); // Replace with your reCAPTCHA site key
+
   // Initialize Authentication and Firestore
   const auth = firebase.auth();
   const db = firebase.firestore();
@@ -20,8 +24,9 @@ try {
   // Export for use in other files
   window.auth = auth;
   window.db = db;
+  window.appCheck = appCheck;
 
-  console.log("Firebase initialized - Data will be saved to your private database");
+  console.log("Firebase initialized with App Check, Authentication and Firestore");
 } catch (error) {
   console.warn("Firebase initialization failed, using offline mode:", error);
 
