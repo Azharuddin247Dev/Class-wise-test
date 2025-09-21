@@ -101,7 +101,7 @@ const class7Chapter6 = {
         {
             question: "Sum of exterior angle of a triangle with two opposite interior angles 50° and 60°?",
             options: ["110°", "120°", "130°", "140°"],
-            correct: 2
+            correct: 0
         },
         {
             question: "Median joins?",
@@ -138,3 +138,4 @@ const class7Chapter6 = {
 
 // Export for dynamic loading
 window.class7Chapter6 = class7Chapter6;
+
