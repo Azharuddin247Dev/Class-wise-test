@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - WB Math Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .admin-tabs { display: flex; gap: 10px; margin: 20px 0; }
+        .admin-tab { padding: 10px 20px; border: 1px solid #ddd; background: white; cursor: pointer; border-radius: 4px; }
+        .admin-tab.active { background: #007bff; color: white; }
+        .admin-content { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .user-card { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; }
+        .user-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .action-btn { padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .btn-view { background: #17a2b8; color: white; }
+        .btn-export { background: #28a745; color: white; }
+        .export-section { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="admin-container">
+            <div class="auth-header">
+                <h1>🔧 Admin Panel</h1>
+                <p>User Performance Management</p>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="showTab('users')">👥 Users</button>
+                <button class="admin-tab" onclick="showTab('analytics')">📊 Analytics</button>
+                <button class="admin-tab" onclick="showTab('export')">📤 Export Data</button>
+            </div>
+
+            <div id="users-tab" class="admin-content">
+                <h3>User Management</h3>
+                <div class="filters">
+                    <input type="text" id="user-search" placeholder="Search users..." onkeyup="filterUsers()">
+                    <select id="class-filter" onchange="filterUsers()">
+                        <option value="">All Classes</option>
+                        <option value="5">Class V</option>
+                        <option value="6">Class VI</option>
+                        <option value="7">Class VII</option>
+                        <option value="8">Class VIII</option>
+                    </select>
+                </div>
+                <div id="users-list">Loading users...</div>
+            </div>
+
+            <div id="analytics-tab" class="admin-content" style="display: none;">
+                <h3>System Analytics</h3>
+                <div id="system-stats"></div>
+                <div id="performance-insights"></div>
+            </div>
+
+            <div id="export-tab" class="admin-content" style="display: none;">
+                <h3>Data Export</h3>
+                <div class="export-section">
+                    <h4>Export User Data</h4>
+                    <button onclick="exportUserData()" class="action-btn btn-export">📊 Export All User Data (CSV)</button>
+                    <button onclick="exportTestResults()" class="action-btn btn-export">📋 Export Test Results (CSV)</button>
+                    <button onclick="exportPerformanceReport()" class="action-btn btn-export">📈 Export Performance Report (JSON)</button>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="index.html">← Back to Main App</a> | 
+                <a href="performance.html">📊 Performance Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config-simple.js"></script>
+    <script src="js/admin-panel.js"></script>
+</body>
+</html>

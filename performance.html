@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Performance Dashboard - WB Math Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .performance-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
+        .stat-card { background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center; }
+        .stat-number { font-size: 2em; font-weight: bold; color: #007bff; }
+        .filters { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+        .filter-btn { padding: 8px 16px; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer; }
+        .filter-btn.active { background: #007bff; color: white; }
+        .performance-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .performance-table th, .performance-table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        .performance-table th { background: #f8f9fa; }
+        .progress-bar { width: 100%; height: 20px; background: #e9ecef; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #28a745, #ffc107, #dc3545); transition: width 0.3s; }
+        .chart-container { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="performance-container">
+            <div class="auth-header">
+                <h1>📊 User Performance Dashboard</h1>
+                <p>Comprehensive Analytics & Insights</p>
+            </div>
+
+            <div class="filters">
+                <button class="filter-btn active" onclick="setTimeFilter('all')">All Time</button>
+                <button class="filter-btn" onclick="setTimeFilter('week')">Last Week</button>
+                <button class="filter-btn" onclick="setTimeFilter('month')">Last Month</button>
+                <button class="filter-btn" onclick="setClassFilter('all')">All Classes</button>
+                <button class="filter-btn" onclick="setClassFilter(5)">Class V</button>
+                <button class="filter-btn" onclick="setClassFilter(6)">Class VI</button>
+                <button class="filter-btn" onclick="setClassFilter(7)">Class VII</button>
+                <button class="filter-btn" onclick="setClassFilter(8)">Class VIII</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-users">0</div>
+                    <div>Total Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-tests">0</div>
+                    <div>Tests Taken</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avg-score">0%</div>
+                    <div>Average Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="active-users">0</div>
+                    <div>Active Users (7 days)</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>📈 Performance Trends</h3>
+                <canvas id="performanceChart" width="400" height="200"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h3>👥 User Performance Overview</h3>
+                <table class="performance-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Tests Taken</th>
+                            <th>Average Score</th>
+                            <th>Best Score</th>
+                            <th>Progress</th>
+                            <th>Last Active</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-performance-table">
+                        <tr><td colspan="6">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-container">
+                <h3>📚 Chapter Performance Analysis</h3>
+                <div id="chapter-analysis"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="index.html">← Back to Main App</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config-simple.js"></script>
+    <script src="js/performance-analytics.js"></script>
+</body>
+</html>
