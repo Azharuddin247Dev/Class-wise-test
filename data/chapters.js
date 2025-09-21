@@ -10,7 +10,8 @@ const classChapters = {
         { id: 7, name: "Measurement", description: "Length, weight, and capacity" },
         { id: 8, name: "Time", description: "Reading time and calendar" },
         { id: 9, name: "Money", description: "Currency and transactions" },
-        { id: 10, name: "Data Handling", description: "Simple graphs and charts" }
+        { id: 10, name: "Data Handling", description: "Simple graphs and charts" },
+        { id: 11, name : "New chapter", description: "It will be added soon"}
     ],
     6: [
         { id: 1, name: "Knowing Our Numbers", description: "Large numbers and place value" },
