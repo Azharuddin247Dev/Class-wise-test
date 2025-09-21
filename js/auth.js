@@ -271,7 +271,7 @@ async function sendFeedback() {
         const feedbackData = {
             message: message,
             email: email,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            timestamp: window.firebase.firestore.FieldValue.serverTimestamp(),
             dateTime: new Date().toLocaleString('en-IN'),
             type: 'password_reset_request'
         };
