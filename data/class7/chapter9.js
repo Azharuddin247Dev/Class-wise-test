@@ -116,7 +116,7 @@ const class7Chapter9 = {
         {
             question: "Divide 2/3 ÷ 4/5.",
             options: ["5/6", "8/12", "10/12", "1/2"],
-            correct: 2
+            correct: 0
         },
         {
             question: "Convert 0.2 to rational number.",
@@ -138,3 +138,4 @@ const class7Chapter9 = {
 
 // Export for dynamic loading
 window.class7Chapter9 = class7Chapter9;
+
