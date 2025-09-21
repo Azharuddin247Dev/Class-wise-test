@@ -20,6 +20,9 @@ function selectClass(classNum) {
     document.getElementById('chapter-container').style.display = 'block';
     updateUserDisplay();
     
+    // Log class selection activity
+    logUserActivity('class_selected', { selectedClass: classNum });
+    
     document.getElementById('class-title').textContent = `Class ${classNum} - Mathematics`;
     
     const chaptersContainer = document.getElementById('chapters-list');
@@ -67,6 +70,13 @@ function selectChapter(chapter) {
     updateUserDisplay();
     
     document.getElementById('chapter-title').textContent = `Chapter: ${chapter.name}`;
+    
+    // Log chapter selection activity
+    logUserActivity('chapter_selected', { 
+        selectedClass: userData.selectedClass,
+        selectedChapter: chapter.name,
+        chapterId: chapter.id
+    });
 }
 
 function selectType(type) {
@@ -159,6 +169,13 @@ function prevPage() {
 }
 
 async function startTest() {
+    // Log test start activity
+    logUserActivity('test_started', {
+        class: userData.selectedClass,
+        chapter: userData.selectedChapter.name,
+        chapterId: userData.selectedChapter.id
+    });
+    
     try {
         const testQuestions = await getTestQuestionsForChapter(userData.selectedClass, userData.selectedChapter.id);
         
@@ -340,8 +357,17 @@ async function saveTestResult(score, percentage) {
             localResults.push({...result, timestamp: Date.now(), firestoreId: docRef.id});
             localStorage.setItem('testResults', JSON.stringify(localResults));
             
-            // Update user profile in Firebase
+            // Update user profile and log activity
             await updateUserProfile(result);
+            await logUserActivity('test_completed', {
+                class: result.class,
+                chapter: result.chapter,
+                score: result.score,
+                totalQuestions: result.totalQuestions,
+                percentage: result.percentage,
+                grade: result.grade,
+                timeTaken: result.timeTaken
+            });
         } else {
             throw new Error('Firebase not available');
         }
@@ -750,5 +776,45 @@ async function updateUserProfile(testResult) {
         
     } catch (error) {
         console.log('Could not update user profile:', error.message);
+    }
+}
+
+// Log user activity to Firebase for detailed tracking
+async function logUserActivity(action, details = {}) {
+    if (!window.db || !currentUser) return;
+    
+    try {
+        const now = new Date();
+        const activityData = {
+            userId: currentUser.uid,
+            userName: userData.name,
+            userEmail: userData.email,
+            action: action,
+            timestamp: now.toISOString(),
+            timestampFormatted: now.toLocaleString('en-IN'),
+            date: now.toISOString().split('T')[0],
+            time: now.toTimeString().split(' ')[0],
+            details: details,
+            sessionId: 'session_' + Date.now(),
+            deviceInfo: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language
+            }
+        };
+        
+        // Save to userActivity collection
+        await window.db.collection('userActivity').add(activityData);
+        
+        // Also update user's activity log in their profile
+        const userRef = window.db.collection('userPerformance').doc(currentUser.uid);
+        await userRef.update({
+            lastActivityAction: action,
+            lastActivityTime: now.toISOString(),
+            totalActivities: window.firebase.firestore.FieldValue.increment(1)
+        });
+        
+    } catch (error) {
+        console.log('Could not log user activity:', error.message);
     }
 }
