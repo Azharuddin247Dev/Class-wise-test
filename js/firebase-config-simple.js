@@ -13,10 +13,6 @@ const firebaseConfig = {
 try {
   firebase.initializeApp(firebaseConfig);
 
-  // Initialize App Check
-  const appCheck = firebase.appCheck();
-  appCheck.activate('6LdMi9ArAAAAAI-fo4DR363moRFh2m_zvODuGugm', true); // Replace with your reCAPTCHA site key
-
   // Initialize Authentication and Firestore
   const auth = firebase.auth();
   const db = firebase.firestore();
@@ -24,9 +20,8 @@ try {
   // Export for use in other files
   window.auth = auth;
   window.db = db;
-  window.appCheck = appCheck;
 
-  console.log("Firebase initialized with App Check, Authentication and Firestore");
+  console.log("Firebase initialized with Authentication and Firestore");
 } catch (error) {
   console.warn("Firebase initialization failed, using offline mode:", error);
 
