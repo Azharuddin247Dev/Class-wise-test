@@ -96,7 +96,7 @@ const class5Chapter1 = {
         {
             question: "What is the place value of 7 in 3756?",
             options: ["7", "70", "700", "50"],
-            correct: 1
+            correct: 2
         },
         {
             question: "Round 4567 to the nearest hundred.",
