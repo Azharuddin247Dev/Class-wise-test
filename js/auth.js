@@ -299,6 +299,39 @@ async function sendFeedback() {
     }
 }
 
+// Log user activity to Firebase for detailed tracking
+async function logUserActivity(action, details = {}) {
+    if (!window.db || !currentUser || !userData.name) return;
+    
+    try {
+        const now = new Date();
+        const activityData = {
+            userId: currentUser.uid,
+            userName: userData.name,
+            userEmail: userData.email,
+            action: action,
+            timestamp: now.toISOString(),
+            timestampFormatted: now.toLocaleString('en-IN'),
+            date: now.toISOString().split('T')[0],
+            time: now.toTimeString().split(' ')[0],
+            details: details,
+            sessionId: 'session_' + Date.now(),
+            deviceInfo: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language
+            }
+        };
+        
+        // Save to userActivity collection
+        await window.db.collection('userActivity').add(activityData);
+        console.log('User activity logged:', action);
+        
+    } catch (error) {
+        console.log('Could not log user activity:', error.message);
+    }
+}
+
 // Check if user is already logged in
 window.auth.onAuthStateChanged((user) => {
     if (user) {
