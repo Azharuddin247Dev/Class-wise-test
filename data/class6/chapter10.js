@@ -100,14 +100,14 @@ const class6Chapter10 = {
     },
     {
       question: "Find the area of a square with side 14 cm.",
-      options: ["196 cm²", "28 cm²", "196 cm", "14 cm²"],
-      correct: 0,
+      options: ["28 cm²", "196 cm", "14 cm²","196 cm²"],
+      correct: 3,
     },
     {
       question:
         "What is the circumference of a circle with diameter 10 cm? (π = 3.14)",
-      options: ["31.4 cm", "15.7 cm", "62.8 cm", "10 cm"],
-      correct: 0,
+      options: ["15.7 cm","31.4 cm", "62.8 cm", "10 cm"],
+      correct: 1,
     },
     {
       question: "Find the area of a triangle with base 10 cm and height 12 cm.",
@@ -116,8 +116,8 @@ const class6Chapter10 = {
     },
     {
       question: "Find the volume of a cube with side 6 cm.",
-      options: ["216 cm³", "36 cm³", "72 cm³", "12 cm³"],
-      correct: 0,
+      options: ["36 cm³", "72 cm³","216 cm³", "12 cm³"],
+      correct: 2,
     },
     {
       question:
@@ -128,8 +128,8 @@ const class6Chapter10 = {
     {
       question:
         "Find the perimeter of an equilateral triangle with side 15 cm.",
-      options: ["45 cm", "60 cm", "30 cm", "75 cm"],
-      correct: 0,
+      options: ["60 cm", "30 cm","45 cm", "75 cm"],
+      correct: 2,
     },
     {
       question:
@@ -139,8 +139,8 @@ const class6Chapter10 = {
     },
     {
       question: "Find the surface area of a cube with side 10 cm.",
-      options: ["600 cm²", "100 cm²", "300 cm²", "400 cm²"],
-      correct: 0,
+      options: ["100 cm²", "400 cm²", "300 cm²", "600 cm²"],
+      correct: 3,
     },
     {
       question:
@@ -153,3 +153,4 @@ const class6Chapter10 = {
 
 // Export for dynamic loading
 window.class6Chapter10 = class6Chapter10;
+
