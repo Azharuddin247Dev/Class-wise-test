@@ -268,10 +268,14 @@ async function sendFeedback() {
     }
     
     try {
+        if (!window.db) {
+            throw new Error('Firebase not available');
+        }
+        
         const feedbackData = {
             message: message,
             email: email,
-            timestamp: window.firebase.firestore.FieldValue.serverTimestamp(),
+            timestamp: window.firebase ? window.firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString(),
             dateTime: new Date().toLocaleString('en-IN'),
             type: 'password_reset_request'
         };
@@ -281,7 +285,17 @@ async function sendFeedback() {
         closeFeedbackModal();
     } catch (error) {
         console.error('Error sending feedback:', error);
-        alert('Error sending request. Please try again later.');
+        // Save to localStorage as fallback
+        const localFeedback = JSON.parse(localStorage.getItem('feedback') || '[]');
+        localFeedback.push({
+            message: message,
+            email: email,
+            dateTime: new Date().toLocaleString('en-IN'),
+            type: 'password_reset_request'
+        });
+        localStorage.setItem('feedback', JSON.stringify(localFeedback));
+        alert('Your request has been saved locally. Please try again later when online.');
+        closeFeedbackModal();
     }
 }
 
