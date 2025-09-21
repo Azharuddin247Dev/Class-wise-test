@@ -141,7 +141,7 @@ const class5Chapter3 = {
     {
       question: "Write 4 × 3 as repeated addition.",
       options: ["4 + 4 + 4", "3 + 3 + 3 + 3", "4 + 3", "3 × 4"],
-      correct: 1,
+      correct: 0,
     },
     {
       question: "The product of the largest 2-digit number and 1 is:",
@@ -153,3 +153,4 @@ const class5Chapter3 = {
 
 // Export for dynamic loading
 window.class5Chapter3 = class5Chapter3;
+
