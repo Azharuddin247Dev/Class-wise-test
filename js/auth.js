@@ -58,10 +58,6 @@ async function signup() {
         const userCredential = await window.auth.createUserWithEmailAndPassword(email, password);
         currentUser = userCredential.user;
         
-        // Optional: Send email verification
-        // await currentUser.sendEmailVerification();
-        // alert('Please check your email to verify your account');
-        
         // Save user to localStorage for demo mode
         registeredUsers.push({
             uid: currentUser.uid,
@@ -111,6 +107,8 @@ async function login() {
             userData.name = savedName;
             userData.email = currentUser.email;
             showClassSelection();
+            // Log login activity
+            logUserActivity('user_login', { loginMethod: 'firebase_auth' });
         } else {
             showNameInput();
         }
@@ -142,6 +140,8 @@ async function login() {
             userData.name = savedName;
             userData.email = currentUser.email;
             showClassSelection();
+            // Log login activity
+            logUserActivity('user_login', { loginMethod: 'demo_mode' });
         } else {
             showNameInput();
         }
