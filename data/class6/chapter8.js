@@ -121,7 +121,7 @@ const class6Chapter8 = {
         {
             question: "Multiply: 0.4 × 5.",
             options: ["1", "2", "2.5", "20"],
-            correct: 2
+            correct: 1
         },
         {
             question: "Divide: 8.4 ÷ 10.",
@@ -138,3 +138,4 @@ const class6Chapter8 = {
 
 // Export for dynamic loading
 window.class6Chapter8 = class6Chapter8;
+
