@@ -12,6 +12,9 @@ Access the application at: `https://yourusername.github.io/repository-name/`
 - **Interactive Tests**: Multiple choice questions with instant results
 - **Global Leaderboard**: Track performance across all users
 - **Firebase Authentication**: Secure user login/signup
+- **📊 Performance Dashboard**: Comprehensive user analytics and insights
+- **🔧 Admin Panel**: User management and data export capabilities
+- **📈 Advanced Analytics**: Performance trends, user activity tracking, and detailed metrics
 
 ## 🛠️ Setup for GitHub Pages
 1. Fork/Clone this repository
@@ -55,3 +58,18 @@ All chapter data is dynamically loaded from individual files. No additional conf
 5. Study reading questions
 6. Take interactive test
 7. View results and leaderboard
+8. **📊 Track Performance**: Access detailed analytics via Performance Dashboard
+9. **🔧 Admin Access**: Use Admin Panel for user management (admin.html)
+
+## 📊 Performance Features
+- **User Analytics**: Individual user performance tracking
+- **System Statistics**: Overall platform metrics
+- **Performance Trends**: Visual charts and progress tracking
+- **Data Export**: CSV and JSON export capabilities
+- **Activity Monitoring**: User engagement and activity status
+- **Chapter Analysis**: Performance breakdown by chapter and class
+
+### Access Points:
+- **Performance Dashboard**: `performance.html`
+- **Admin Panel**: `admin.html`
+- **Global Leaderboard**: `leaderboard.html`
