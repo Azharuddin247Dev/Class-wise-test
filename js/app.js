@@ -339,6 +339,9 @@ async function saveTestResult(score, percentage) {
             const localResults = JSON.parse(localStorage.getItem('testResults') || '[]');
             localResults.push({...result, timestamp: Date.now(), firestoreId: docRef.id});
             localStorage.setItem('testResults', JSON.stringify(localResults));
+            
+            // Update user profile in Firebase
+            await updateUserProfile(result);
         } else {
             throw new Error('Firebase not available');
         }
@@ -644,4 +647,108 @@ async function chapterHasQuestions(classNum, chapterId) {
         return await window.chapterLoader.chapterExists(classNum, chapterId);
     }
     return false;
+}
+
+// Update user profile in Firebase for easy viewing in Firebase Console
+async function updateUserProfile(testResult) {
+    if (!window.db || !currentUser) return;
+    
+    try {
+        const userRef = window.db.collection('userPerformance').doc(currentUser.uid);
+        const userDoc = await userRef.get();
+        
+        const now = new Date();
+        const dateKey = now.toISOString().split('T')[0]; // YYYY-MM-DD format
+        
+        if (userDoc.exists) {
+            const currentData = userDoc.data();
+            const totalTests = (currentData.totalTests || 0) + 1;
+            const totalScore = (currentData.totalScore || 0) + testResult.percentage;
+            
+            await userRef.update({
+                // User Info
+                userName: testResult.name,
+                userEmail: testResult.email,
+                displayName: testResult.displayName,
+                
+                // Performance Summary
+                totalTests: totalTests,
+                averageScore: Math.round(totalScore / totalTests),
+                bestScore: Math.max(currentData.bestScore || 0, testResult.percentage),
+                worstScore: Math.min(currentData.worstScore || 100, testResult.percentage),
+                lastTestScore: testResult.percentage,
+                lastTestGrade: testResult.grade,
+                
+                // Activity
+                lastActive: now.toISOString(),
+                lastActiveFormatted: now.toLocaleString('en-IN'),
+                lastClass: testResult.class,
+                lastChapter: testResult.chapter,
+                
+                // Detailed Stats
+                [`dailyTests_${dateKey}`]: window.firebase.firestore.FieldValue.increment(1),
+                [`class${testResult.class}_tests`]: window.firebase.firestore.FieldValue.increment(1),
+                [`class${testResult.class}_totalScore`]: window.firebase.firestore.FieldValue.increment(testResult.percentage),
+                
+                // Recent Performance (last 5 tests)
+                recentScores: window.firebase.firestore.FieldValue.arrayUnion({
+                    score: testResult.percentage,
+                    class: testResult.class,
+                    chapter: testResult.chapter,
+                    date: now.toISOString(),
+                    grade: testResult.grade
+                })
+            });
+        } else {
+            await userRef.set({
+                // User Info
+                userName: testResult.name,
+                userEmail: testResult.email,
+                displayName: testResult.displayName,
+                userId: currentUser.uid,
+                
+                // Performance Summary
+                totalTests: 1,
+                averageScore: testResult.percentage,
+                bestScore: testResult.percentage,
+                worstScore: testResult.percentage,
+                lastTestScore: testResult.percentage,
+                lastTestGrade: testResult.grade,
+                
+                // Activity
+                joinedDate: now.toISOString(),
+                joinedDateFormatted: now.toLocaleString('en-IN'),
+                lastActive: now.toISOString(),
+                lastActiveFormatted: now.toLocaleString('en-IN'),
+                lastClass: testResult.class,
+                lastChapter: testResult.chapter,
+                
+                // Detailed Stats
+                [`dailyTests_${dateKey}`]: 1,
+                [`class${testResult.class}_tests`]: 1,
+                [`class${testResult.class}_totalScore`]: testResult.percentage,
+                
+                // Recent Performance
+                recentScores: [{
+                    score: testResult.percentage,
+                    class: testResult.class,
+                    chapter: testResult.chapter,
+                    date: now.toISOString(),
+                    grade: testResult.grade
+                }]
+            });
+        }
+        
+        // Also create daily summary for easy tracking
+        await window.db.collection('dailyStats').doc(dateKey).set({
+            date: dateKey,
+            dateFormatted: now.toLocaleDateString('en-IN'),
+            totalTests: window.firebase.firestore.FieldValue.increment(1),
+            totalUsers: window.firebase.firestore.FieldValue.increment(userDoc.exists ? 0 : 1),
+            averageScore: window.firebase.firestore.FieldValue.increment(testResult.percentage)
+        }, { merge: true });
+        
+    } catch (error) {
+        console.log('Could not update user profile:', error.message);
+    }
 }
