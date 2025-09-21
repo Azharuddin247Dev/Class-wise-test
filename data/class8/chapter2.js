@@ -95,8 +95,8 @@ const class8Chapter2 = {
         },
         {
             question: "Solve -3x + 9 = 0.",
-            options: ["x = 3", "x = -3", "x = 0", "x = 9"],
-            correct: 0
+            options: ["x = -3", "x = 3", "x = 0", "x = 9"],
+            correct: 1
         },
         {
             question: "Which is a linear equation in one variable?",
@@ -105,8 +105,8 @@ const class8Chapter2 = {
         },
         {
             question: "Solve 1/2 x - 4 = 0.",
-            options: ["x = 2", "x = 8", "x = -8", "x = 4"],
-            correct: 1
+            options: ["x = 2", "x = -8", "x = 8", "x = 4"],
+            correct: 2
         },
         {
             question: "Solution of 3x - 7 = 8?",
@@ -120,8 +120,8 @@ const class8Chapter2 = {
         },
         {
             question: "Solve -2x + 5 = 1.",
-            options: ["x = 2", "x = -2", "x = 1", "x = -1"],
-            correct: 0
+            options: ["x = -2", "x = 2", "x = 1", "x = -1"],
+            correct: 1
         },
         {
             question: "What are like terms in 3x + 5 + 7x - 2?",
@@ -131,10 +131,11 @@ const class8Chapter2 = {
         {
             question: "Equation 2x² + 5 = 0 is linear in?",
             options: ["x", "x²", "Neither", "Both"],
-            correct: 2
+            correct: 1
         }
     ]
 };
 
 // Export for dynamic loading
 window.class8Chapter2 = class8Chapter2;
+
