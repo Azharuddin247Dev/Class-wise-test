@@ -116,12 +116,12 @@ const class6Chapter7 = {
         {
             question: "What is 5/12 + 7/12?",
             options: ["11/12", "1", "12/12", "1 1/12"],
-            correct: 3
+            correct: 1
         },
         {
             question: "What is 9/10 - 2/5?",
             options: ["1/10", "3/10", "5/10", "7/10"],
-            correct: 3
+            correct: 2
         },
         {
             question: "What is 2/7 of 21?",
@@ -131,10 +131,11 @@ const class6Chapter7 = {
         {
             question: "What is 3/4 + 2/3?",
             options: ["17/12", "19/12", "21/12", "23/12"],
-            correct: 1
+            correct: 0
         }
     ]
 };
 
 // Export for dynamic loading
 window.class6Chapter7 = class6Chapter7;
+
