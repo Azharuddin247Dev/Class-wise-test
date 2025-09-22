@@ -732,6 +732,7 @@ async function updateUserProfile(testResult) {
                 userEmail: testResult.email,
                 displayName: testResult.displayName,
                 userId: currentUser.uid,
+                role: 'user', // Default role
                 
                 // Performance Summary
                 totalTests: 1,
