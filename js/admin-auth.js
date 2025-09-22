@@ -42,9 +42,10 @@ window.addEventListener('load', async () => {
         }
         
         // Show admin nav link if user is admin
-        if (currentUser) {
+        if (window.currentUser || currentUser) {
+            const user = window.currentUser || currentUser;
             try {
-                const userDoc = await window.db.collection('userPerformance').doc(currentUser.uid).get();
+                const userDoc = await window.db.collection('userPerformance').doc(user.uid).get();
                 if (userDoc.exists && userDoc.data().role === 'admin') {
                     const adminLink = document.getElementById('admin-nav-link');
                     if (adminLink) adminLink.style.display = 'inline-block';
