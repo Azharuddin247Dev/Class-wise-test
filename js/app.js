@@ -617,7 +617,7 @@ function displayLocalLeaderboardFallback() {
 }
 
 function startTimer() {
-    let timeLeft = 30 * 60; // 30 minutes in seconds
+    let timeLeft = 20 * 60; // 20 minutes in seconds
     
     const timerInterval = setInterval(() => {
         const minutes = Math.floor(timeLeft / 60);
