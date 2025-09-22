@@ -9,6 +9,22 @@
 </head>
 
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>📚 WB Math Portal</h2>
+                <span class="nav-subtitle">Classes V-VIII</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">🏠 Home</a>
+                <a href="leaderboard.html" class="nav-link">🏆 Leaderboard</a>
+                <a href="performance.html" class="nav-link">📊 Analytics</a>
+                <a href="admin.html" class="nav-link" id="admin-nav-link" style="display: none;">⚙️ Admin</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <!-- Login/Signup Screen -->
         <div id="auth-container">
@@ -16,7 +32,7 @@
                 <h1>West Bengal Mathematics Portal</h1>
                 <p>Classes V to VIII</p>
                 <div id="demo-notice" style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 14px; color: #856404;">
-                    📚 <strong>User Guide:</strong> Sign up first with any email/password, then login to access the portal. All data is stored locally.
+                    📚 <strong>Demo Mode:</strong> Sign up first with any email/password, then login to access the portal. All data is stored locally.
                 </div>
             </div>
 
@@ -177,10 +193,36 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>📚 WB Math Portal</h4>
+                <p>Comprehensive mathematics learning platform for classes V-VIII</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="index.html">Home</a>
+                <a href="leaderboard.html">Leaderboard</a>
+                <a href="performance.html">Analytics</a>
+            </div>
+            <div class="footer-section">
+                <h4>Features</h4>
+                <p>✓ Interactive Tests</p>
+                <p>✓ Performance Tracking</p>
+                <p>✓ Real-time Analytics</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 WB Math Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config-simple.js"></script>
+    <script src="js/admin-auth.js"></script>
     <script src="data/chapters.js"></script>
     <script src="js/chapter-data-fallback.js"></script>
     <script>
