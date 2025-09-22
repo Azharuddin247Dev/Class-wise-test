@@ -809,16 +809,8 @@ async function logUserActivity(action, details = {}) {
             }
         };
         
-        // Save to userActivity collection
+        // Save to userActivity collection only
         await window.db.collection('userActivity').add(activityData);
-        
-        // Also update user's activity log in their profile
-        const userRef = window.db.collection('userPerformance').doc(currentUser.uid);
-        await userRef.update({
-            lastActivityAction: action,
-            lastActivityTime: now.toISOString(),
-            totalActivities: window.firebase.firestore.FieldValue.increment(1)
-        });
         
     } catch (error) {
         console.log('Could not log user activity:', error.message);
