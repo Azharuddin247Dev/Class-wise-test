@@ -75,6 +75,10 @@
             content.innerHTML = '<p>Loading global results...</p>';
             
             try {
+                if (!window.db) {
+                    throw new Error('Firebase not initialized');
+                }
+                
                 // Try to load from Firestore first
                 const snapshot = await window.db.collection('testResults')
                     .orderBy('percentage', 'desc')
@@ -92,14 +96,12 @@
                     });
                 });
                 
-                if (allResults.length === 0) {
-                    // Fallback to localStorage
-                    allResults = JSON.parse(localStorage.getItem('testResults') || '[]');
-                }
+                console.log('Loaded', allResults.length, 'results from Firebase');
                 
             } catch (error) {
-                console.log('Using local storage for leaderboard');
-                allResults = JSON.parse(localStorage.getItem('testResults') || '[]');
+                console.error('Firebase error:', error);
+                content.innerHTML = '<p>Unable to load leaderboard. Please check your internet connection.</p>';
+                return;
             }
             
             displayResults(allResults);
@@ -158,7 +160,11 @@
         
         // Load leaderboard when page loads
         window.addEventListener('load', () => {
-            setTimeout(loadGlobalLeaderboard, 1000);
+            if (window.firebase && window.firebase.apps.length > 0) {
+                setTimeout(loadGlobalLeaderboard, 1000);
+            } else {
+                document.getElementById('leaderboard-content').innerHTML = '<p>Firebase connection error. Please refresh the page.</p>';
+            }
         });
     </script>
 </body>
