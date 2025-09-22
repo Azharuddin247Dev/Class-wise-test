@@ -10,7 +10,6 @@ async function loadPerformanceData() {
         // Load all users' data for global performance
         if (window.db) {
             const snapshot = await window.db.collection('testResults')
-                .orderBy('timestamp', 'desc')
                 .get();
             
             allTestResults = [];
