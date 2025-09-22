@@ -294,8 +294,26 @@ function getGrade(percentage) {
 }
 
 async function saveTestResult(score, percentage) {
-    if (!currentUser || !userData.email || !userData.name) {
+    console.log('Attempting to save test result...');
+    console.log('Current user:', currentUser);
+    console.log('User data:', userData);
+    console.log('Firebase db:', window.db);
+    
+    if (!currentUser) {
+        console.error('No authenticated user found');
+        alert('Please log in again to save your results.');
+        return;
+    }
+    
+    if (!userData.email || !userData.name) {
         console.error('Missing user data for saving result');
+        alert('User information missing. Please refresh and try again.');
+        return;
+    }
+    
+    if (!window.db) {
+        console.error('Firebase database not available');
+        alert('Database connection unavailable. Please check your internet connection.');
         return;
     }
     
@@ -347,31 +365,40 @@ async function saveTestResult(score, percentage) {
     };
     
     try {
-        // Try to save to Firestore for global leaderboard
-        if (window.db && window.firebase) {
-            const docRef = await window.db.collection('testResults').add(result);
-            console.log('Result saved to Firestore with ID:', docRef.id);
-            
-            console.log('Test result successfully saved to database');
-            
-            // Update user profile and log activity
-            await updateUserProfile(result);
-            await logUserActivity('test_completed', {
-                class: result.class,
-                chapter: result.chapter,
-                score: result.score,
-                totalQuestions: result.totalQuestions,
-                percentage: result.percentage,
-                grade: result.grade,
-                timeTaken: result.timeTaken
-            });
-        } else {
-            throw new Error('Unable to save results. Please check your internet connection.');
-        }
+        console.log('Saving result to Firebase:', result);
+        const docRef = await window.db.collection('testResults').add(result);
+        console.log('Result saved to Firestore with ID:', docRef.id);
+        
+        // Update user profile and log activity
+        await updateUserProfile(result);
+        await logUserActivity('test_completed', {
+            class: result.class,
+            chapter: result.chapter,
+            score: result.score,
+            totalQuestions: result.totalQuestions,
+            percentage: result.percentage,
+            grade: result.grade,
+            timeTaken: result.timeTaken
+        });
+        
+        console.log('Test result successfully saved to database');
         
     } catch (error) {
-        console.error('Error saving test result:', error.message);
-        alert('Unable to save your test results. Please check your internet connection and try again.');
+        console.error('Detailed error saving test result:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        
+        let errorMessage = 'Unable to save your test results. ';
+        
+        if (error.code === 'permission-denied') {
+            errorMessage += 'Please log in again and try.';
+        } else if (error.code === 'unavailable') {
+            errorMessage += 'Service temporarily unavailable. Please try again.';
+        } else {
+            errorMessage += 'Please check your internet connection and try again.';
+        }
+        
+        alert(errorMessage);
         throw error;
     }
 }
