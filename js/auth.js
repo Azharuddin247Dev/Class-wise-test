@@ -4,13 +4,19 @@ let currentUser = null;
 function showLogin() {
     document.getElementById('login-form').style.display = 'block';
     document.getElementById('signup-form').style.display = 'none';
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    if (event && event.target) {
-        event.target.classList.add('active');
-    } else {
-        // Default to first tab when called programmatically
-        const firstTab = document.querySelector('.tab-btn');
-        if (firstTab) firstTab.classList.add('active');
+    
+    // Safely handle tab switching
+    try {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        if (event && event.target) {
+            event.target.classList.add('active');
+        } else {
+            // Default to first tab when called programmatically
+            const firstTab = document.querySelector('.tab-btn');
+            if (firstTab) firstTab.classList.add('active');
+        }
+    } catch (error) {
+        // Ignore tab styling errors during logout
     }
     
     // Clear signup form fields
