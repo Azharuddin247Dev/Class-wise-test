@@ -180,6 +180,22 @@ function showClassSelection() {
     document.getElementById('name-container').style.display = 'none';
     document.getElementById('class-container').style.display = 'block';
     updateUserDisplay();
+    checkUserRole();
+}
+
+// Check user role and show admin link if admin
+async function checkUserRole() {
+    if (!window.db || !currentUser) return;
+    
+    try {
+        const userDoc = await window.db.collection('userPerformance').doc(currentUser.uid).get();
+        if (userDoc.exists && userDoc.data().role === 'admin') {
+            const adminLink = document.getElementById('admin-nav-link');
+            if (adminLink) adminLink.style.display = 'inline-block';
+        }
+    } catch (error) {
+        console.log('Could not check user role:', error.message);
+    }
 }
 
 function updateUserDisplay() {
