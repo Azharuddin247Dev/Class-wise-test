@@ -352,10 +352,7 @@ async function saveTestResult(score, percentage) {
             const docRef = await window.db.collection('testResults').add(result);
             console.log('Result saved to Firestore with ID:', docRef.id);
             
-            // Also save to localStorage as backup
-            const localResults = JSON.parse(localStorage.getItem('testResults') || '[]');
-            localResults.push({...result, timestamp: Date.now(), firestoreId: docRef.id});
-            localStorage.setItem('testResults', JSON.stringify(localResults));
+            console.log('Test result successfully saved to database');
             
             // Update user profile and log activity
             await updateUserProfile(result);
@@ -369,16 +366,13 @@ async function saveTestResult(score, percentage) {
                 timeTaken: result.timeTaken
             });
         } else {
-            throw new Error('Firebase not available');
+            throw new Error('Unable to save results. Please check your internet connection.');
         }
         
     } catch (error) {
-        console.log('Saving to localStorage (Firebase not available):', error.message);
-        // Fallback to localStorage if Firestore fails
-        const results = JSON.parse(localStorage.getItem('testResults') || '[]');
-        results.push({...result, timestamp: Date.now()});
-        localStorage.setItem('testResults', JSON.stringify(results));
-        // Don't throw error, just continue with localStorage
+        console.error('Error saving test result:', error.message);
+        alert('Unable to save your test results. Please check your internet connection and try again.');
+        throw error;
     }
 }
 
@@ -419,16 +413,9 @@ async function showGlobalLeaderboard() {
             });
         }
     } catch (error) {
-        console.log('Firebase not available, using localStorage:', error);
-    }
-    
-    // If no Firebase results, use localStorage
-    if (allResults.length === 0) {
-        const localResults = JSON.parse(localStorage.getItem('testResults') || '[]');
-        allResults = localResults.map(result => ({
-            ...result,
-            timestamp: result.timestamp ? new Date(result.timestamp) : new Date(result.dateTime || Date.now())
-        }));
+        console.error('Error loading leaderboard:', error);
+        content.innerHTML = '<h3>🌍 Global Leaderboard - All Tests</h3><p>Unable to load leaderboard. Please check your internet connection.</p>';
+        return;
     }
     
     content.innerHTML = '<h3>🌍 Global Leaderboard - All Tests</h3>';
@@ -511,18 +498,9 @@ async function showLocalLeaderboard() {
             });
         }
     } catch (error) {
-        console.log('Firebase not available, using localStorage:', error);
-    }
-    
-    // If no Firebase results, filter localStorage results
-    if (chapterResults.length === 0) {
-        const localResults = JSON.parse(localStorage.getItem('testResults') || '[]');
-        chapterResults = localResults
-            .filter(result => result.class === userData.selectedClass && result.chapterId === userData.selectedChapter.id)
-            .map(result => ({
-                ...result,
-                timestamp: result.timestamp ? new Date(result.timestamp) : new Date(result.dateTime || Date.now())
-            }));
+        console.error('Error loading chapter leaderboard:', error);
+        content.innerHTML = `<h3>📚 Chapter Leaderboard</h3><h4>Class ${userData.selectedClass} - ${userData.selectedChapter.name}</h4><p>Unable to load chapter results. Please check your internet connection.</p>`;
+        return;
     }
     
     content.innerHTML = `<h3>📚 Chapter Leaderboard</h3><h4>Class ${userData.selectedClass} - ${userData.selectedChapter.name}</h4>`;
