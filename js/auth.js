@@ -5,7 +5,13 @@ function showLogin() {
     document.getElementById('login-form').style.display = 'block';
     document.getElementById('signup-form').style.display = 'none';
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+    if (event && event.target) {
+        event.target.classList.add('active');
+    } else {
+        // Default to first tab when called programmatically
+        const firstTab = document.querySelector('.tab-btn');
+        if (firstTab) firstTab.classList.add('active');
+    }
     
     // Clear signup form fields
     document.getElementById('signup-email').value = '';
@@ -302,7 +308,11 @@ async function logUserActivity(action, details = {}) {
         console.log('User activity logged:', action);
         
     } catch (error) {
-        console.log('Could not log user activity:', error.message);
+        if (error.code === 'permission-denied') {
+            console.log('Firebase permissions not configured for activity logging');
+        } else {
+            console.log('Could not log user activity:', error.message);
+        }
     }
 }
 
