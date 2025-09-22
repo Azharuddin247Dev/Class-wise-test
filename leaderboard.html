@@ -81,8 +81,6 @@
                 
                 // Try to load from Firestore first
                 const snapshot = await window.db.collection('testResults')
-                    .orderBy('percentage', 'desc')
-                    .orderBy('timestamp', 'desc')
                     .limit(100)
                     .get();
                 
