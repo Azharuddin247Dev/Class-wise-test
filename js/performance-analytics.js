@@ -7,7 +7,7 @@ let currentClassFilter = 'all';
 // Load and analyze performance data
 async function loadPerformanceData() {
     try {
-        // Try Firebase first
+        // Load all users' data for global performance
         if (window.db) {
             const snapshot = await window.db.collection('testResults')
                 .orderBy('timestamp', 'desc')
@@ -255,6 +255,68 @@ function drawPerformanceChart() {
     
     // Draw data points and lines
     if (chartData.length > 1) {
+        ctx.strokeStyle = '#007bff';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        
+        chartData.forEach((point, index) => {
+            const x = padding + (index / (chartData.length - 1)) * chartWidth;
+            const y = canvas.height - padding - (point.avgScore / 100) * chartHeight;
+            
+            if (index === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+            
+            // Draw point
+            ctx.fillStyle = '#007bff';
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, 2 * Math.PI);
+            ctx.fill();
+        });
+        
+        ctx.stroke();
+    }
+    
+    // Draw labels
+    ctx.fillStyle = '#666';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    
+    chartData.forEach((point, index) => {
+        const x = padding + (index / Math.max(chartData.length - 1, 1)) * chartWidth;
+        const label = point.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        ctx.fillText(label, x, canvas.height - 10);
+    });
+}
+
+// Filter functions
+function setTimeFilter(filter) {
+    currentTimeFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    applyFilters();
+    updateDashboard();
+}
+
+function setClassFilter(classNum) {
+    currentClassFilter = classNum;
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    applyFilters();
+    updateDashboard();
+}
+
+// Initialize when page loads
+window.addEventListener('load', () => {
+    if (window.firebase && window.firebase.apps.length > 0) {
+        loadPerformanceData();
+    } else {
+        console.error('Firebase not initialized');
+        document.getElementById('user-performance-table').innerHTML = '<tr><td colspan="6">Firebase connection error</td></tr>';
+    }
+});  if (chartData.length > 1) {
         ctx.strokeStyle = '#007bff';
         ctx.lineWidth = 2;
         ctx.beginPath();
