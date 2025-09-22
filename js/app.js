@@ -426,7 +426,6 @@ async function showGlobalLeaderboard() {
         if (window.db && window.firebase) {
             const snapshot = await window.db.collection('testResults')
                 .orderBy('percentage', 'desc')
-                .orderBy('timestamp', 'desc')
                 .limit(20)
                 .get();
             
@@ -511,7 +510,6 @@ async function showLocalLeaderboard() {
                 .where('class', '==', userData.selectedClass)
                 .where('chapterId', '==', userData.selectedChapter.id)
                 .orderBy('percentage', 'desc')
-                .orderBy('timestamp', 'desc')
                 .limit(15)
                 .get();
             
