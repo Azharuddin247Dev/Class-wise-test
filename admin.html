@@ -20,6 +20,21 @@
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>📚 WB Math Portal</h2>
+                <span class="nav-subtitle">Classes V-VIII</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">🏠 Home</a>
+                <a href="leaderboard.html" class="nav-link">🏆 Leaderboard</a>
+                <a href="performance.html" class="nav-link">📊 Analytics</a>
+                <a href="admin.html" class="nav-link active">⚙️ Admin</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <div class="admin-container">
             <div class="auth-header">
@@ -71,11 +86,29 @@
         </div>
     </div>
 
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>⚙️ Admin Panel</h4>
+                <p>User management and system administration</p>
+            </div>
+            <div class="footer-section">
+                <h4>Admin Features</h4>
+                <p>✓ User Management</p>
+                <p>✓ Data Export</p>
+                <p>✓ System Analytics</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 WB Math Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-appcheck-compat.js"></script>
     <script src="js/firebase-config-simple.js"></script>
+    <script src="js/admin-auth.js"></script>
     <script src="js/admin-panel.js"></script>
 </body>
 </html>
