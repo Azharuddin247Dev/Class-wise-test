@@ -58,33 +58,20 @@ async function signup() {
         const userCredential = await window.auth.createUserWithEmailAndPassword(email, password);
         currentUser = userCredential.user;
         
-        // Save user to localStorage for demo mode
-        registeredUsers.push({
-            uid: currentUser.uid,
-            email: email,
-            password: password,
-            signupDate: new Date().toISOString()
-        });
-        localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-        
         showNameInput();
     } catch (error) {
         console.error('Signup error:', error);
         
-        // For demo purposes, create a mock user if Firebase fails
-        const mockUid = 'demo-' + Date.now();
-        currentUser = { uid: mockUid, email: email };
-        
-        // Save user to localStorage for demo mode
-        registeredUsers.push({
-            uid: mockUid,
-            email: email,
-            password: password,
-            signupDate: new Date().toISOString()
-        });
-        localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-        
-        showNameInput();
+        if (error.code === 'auth/email-already-in-use') {
+            alert('This email is already registered. Please use the login form.');
+            showLogin();
+        } else if (error.code === 'auth/weak-password') {
+            alert('Password is too weak. Please use at least 6 characters.');
+        } else if (error.code === 'auth/invalid-email') {
+            alert('Please enter a valid email address.');
+        } else {
+            alert('Signup failed. Please check your internet connection and try again.');
+        }
     }
 }
 
@@ -115,35 +102,15 @@ async function login() {
     } catch (error) {
         console.error('Login error:', error);
         
-        // Check if user exists in localStorage (signed up before)
-        const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-        const userExists = registeredUsers.find(user => user.email === email);
-        
-        if (!userExists) {
-            alert('Account not found. Please sign up first.');
+        if (error.code === 'auth/user-not-found') {
+            alert('No account found with this email. Please sign up first.');
             showSignup();
-            return;
-        }
-        
-        // Verify password for demo mode
-        if (userExists.password !== password) {
-            alert('Invalid password. Please try again.');
-            return;
-        }
-        
-        // Create mock user for demo
-        currentUser = { uid: userExists.uid, email: email };
-        
-        // Check localStorage for saved name
-        const savedName = localStorage.getItem(`userName_${currentUser.uid}`);
-        if (savedName) {
-            userData.name = savedName;
-            userData.email = currentUser.email;
-            showClassSelection();
-            // Log login activity
-            logUserActivity('user_login', { loginMethod: 'demo_mode' });
+        } else if (error.code === 'auth/wrong-password') {
+            alert('Incorrect password. Please try again.');
+        } else if (error.code === 'auth/invalid-email') {
+            alert('Please enter a valid email address.');
         } else {
-            showNameInput();
+            alert('Login failed. Please check your internet connection and try again.');
         }
     }
 }
@@ -285,7 +252,7 @@ async function sendFeedback() {
     
     try {
         if (!window.db) {
-            throw new Error('Firebase not available');
+            throw new Error('Service temporarily unavailable. Please try again later.');
         }
         
         const feedbackData = {
@@ -301,17 +268,8 @@ async function sendFeedback() {
         closeFeedbackModal();
     } catch (error) {
         console.error('Error sending feedback:', error);
-        // Save to localStorage as fallback
-        const localFeedback = JSON.parse(localStorage.getItem('feedback') || '[]');
-        localFeedback.push({
-            message: message,
-            email: email,
-            dateTime: new Date().toLocaleString('en-IN'),
-            type: 'password_reset_request'
-        });
-        localStorage.setItem('feedback', JSON.stringify(localFeedback));
-        alert('Your request has been saved locally. Please try again later when online.');
-        closeFeedbackModal();
+        alert('Unable to send your request. Please check your internet connection and try again.');
+        console.error('Feedback submission failed:', error);
     }
 }
 
