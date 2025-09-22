@@ -24,16 +24,16 @@ async function loadPerformanceData() {
             });
         }
     } catch (error) {
-        console.log('Using localStorage for analytics');
+        console.error('Unable to load performance data:', error);
+        document.getElementById('total-users').textContent = 'N/A';
+        document.getElementById('total-tests').textContent = 'N/A';
+        document.getElementById('avg-score').textContent = 'N/A';
+        document.getElementById('active-users').textContent = 'N/A';
     }
     
-    // Fallback to localStorage
     if (allTestResults.length === 0) {
-        const localResults = JSON.parse(localStorage.getItem('testResults') || '[]');
-        allTestResults = localResults.map(result => ({
-            ...result,
-            timestamp: result.timestamp ? new Date(result.timestamp) : new Date(result.dateTime || Date.now())
-        }));
+        document.getElementById('user-performance-table').innerHTML = '<tr><td colspan="6">No performance data available. Please check your internet connection.</td></tr>';
+        return;
     }
     
     applyFilters();
