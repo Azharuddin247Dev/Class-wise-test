@@ -509,8 +509,6 @@ async function showLocalLeaderboard() {
             const snapshot = await window.db.collection('testResults')
                 .where('class', '==', userData.selectedClass)
                 .where('chapterId', '==', userData.selectedChapter.id)
-                .orderBy('percentage', 'desc')
-                .limit(15)
                 .get();
             
             snapshot.forEach(doc => {
@@ -543,7 +541,7 @@ async function showLocalLeaderboard() {
         return (a.timeTaken || 0) - (b.timeTaken || 0);
     });
     
-    // Limit to top 15
+    // Limit to top 15 after sorting
     chapterResults.slice(0, 15).forEach((result, index) => {
         const entry = document.createElement('div');
         entry.className = 'leaderboard-entry chapter-specific';
