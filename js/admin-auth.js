@@ -55,6 +55,6 @@ window.addEventListener('load', async () => {
             } catch (error) {
                 console.log('Could not check user role:', error.message);
             }
+        }
     }, 2000);
-});
 });
