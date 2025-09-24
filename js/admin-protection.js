@@ -1,17 +1,51 @@
 // Admin Access Control
 class AdminAuth {
   constructor() {
-    this.adminEmails = ["azharuddin.sk24@gmail.com"]; // Add your admin email here
-    this.adminPassword = "123@azh1"; // Change this to your secure password
+    this.adminData = null;
     this.init();
   }
 
-  init() {
+  async init() {
+    await this.loadAdminData();
     // Check admin access on auth state change
     if (typeof firebase !== "undefined") {
       firebase.auth().onAuthStateChanged((user) => {
         this.checkAdminAccess(user);
       });
+    }
+  }
+
+  async loadAdminData() {
+    try {
+      const adminDoc = await firebase.firestore().collection('admin').doc('credentials').get();
+      if (adminDoc.exists) {
+        this.adminData = adminDoc.data();
+      } else {
+        // Create default admin document if it doesn't exist
+        await this.createDefaultAdmin();
+      }
+    } catch (error) {
+      console.error('Error loading admin data:', error);
+      // Fallback to default values
+      this.adminData = {
+        emails: ['azharuddin247@gmail.com'],
+        password: 'Admin@2024'
+      };
+    }
+  }
+
+  async createDefaultAdmin() {
+    const defaultAdmin = {
+      emails: ['azharuddin247@gmail.com'],
+      password: 'Admin@2024',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    
+    try {
+      await firebase.firestore().collection('admin').doc('credentials').set(defaultAdmin);
+      this.adminData = defaultAdmin;
+    } catch (error) {
+      console.error('Error creating admin document:', error);
     }
   }
 
@@ -27,11 +61,14 @@ class AdminAuth {
   }
 
   isAdminEmail(email) {
-    return this.adminEmails.includes(email?.toLowerCase());
+    return this.adminData?.emails?.includes(email?.toLowerCase()) || false;
   }
 
   async verifyAdminAccess() {
     const user = firebase.auth().currentUser;
+    
+    // Reload admin data to get latest credentials
+    await this.loadAdminData();
 
     if (!user || !this.isAdminEmail(user.email)) {
       notificationSystem.showError("Access denied. Admin privileges required.");
@@ -98,7 +135,7 @@ class AdminAuth {
     const passwordInput = document.getElementById("admin-password-input");
     const enteredPassword = passwordInput?.value;
 
-    if (enteredPassword === this.adminPassword) {
+    if (enteredPassword === this.adminData?.password) {
       notificationSystem.closeNotification();
       notificationSystem.showSuccess(
         "Admin access granted! Welcome to the admin panel."
