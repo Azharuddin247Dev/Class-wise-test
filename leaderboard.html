@@ -65,7 +65,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config-simple.js"></script>
-    <script src="js/admin-auth.js"></script>
+
     
     <script>
         let allResults = [];
@@ -132,7 +132,7 @@
                 entry.innerHTML = `
                     <div class="rank-info">
                         <span class="rank">${medal} #${index + 1}</span>
-                        <span class="user-name">${result.displayName || result.name || 'Anonymous'}</span>
+                        <span class="user-name">${result.displayName || (result.name && result.email ? generateDisplayName(result.name, result.email) : result.name) || 'Anonymous'}</span>
                     </div>
                     <div class="test-info">
                         <span class="class-chapter">Class ${result.class} - ${result.chapter}</span>
@@ -154,6 +154,14 @@
         function filterByClass(classNum) {
             const filtered = allResults.filter(result => result.class == classNum);
             displayResults(filtered);
+        }
+        
+        // Function to generate display name format
+        function generateDisplayName(name, email) {
+            if (!email || !name) return name || 'Anonymous';
+            const emailPrefix = email.split('@')[0];
+            const emailSuffix = emailPrefix.slice(-4);
+            return `${name}*******${emailSuffix}@*****com`;
         }
         
         // Load leaderboard when page loads
