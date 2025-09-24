@@ -48,7 +48,7 @@
                 <h2>Login</h2>
                 <input type="email" id="login-email" placeholder="Email address" required autocomplete="email">
                 <input type="password" id="login-password" placeholder="Password" required autocomplete="current-password">
-                <button onclick="enhancedLogin()" type="submit">Log In</button>
+                <button onclick="login()" type="submit">Log In</button>
                 <p class="forgot-password"><a href="#" onclick="showFeedbackModal()">Forgot Password? Request Reset</a></p>
             </div>
 
@@ -57,7 +57,7 @@
                 <input type="email" id="signup-email" placeholder="Email address" required autocomplete="email">
                 <input type="password" id="signup-password" placeholder="Create password" required autocomplete="new-password">
                 <input type="password" id="confirm-password" placeholder="Confirm password" required autocomplete="new-password">
-                <button onclick="enhancedSignup()" type="submit">Create Account</button>
+                <button onclick="signup()" type="submit">Create Account</button>
             </div>
         </div>
 
@@ -74,7 +74,7 @@
                 <div class="user-info">
                     <span id="user-display-name">Welcome, User!</span>
                 </div>
-                <button class="logout-btn" onclick="showLogoutConfirmation()">Logout</button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
             <h2>Select Your Class</h2>
             <p style="color: #65676b; text-align: center; margin-bottom: 20px;">Choose your class to access chapter-wise content and tests</p>
@@ -108,7 +108,7 @@
                 <div class="user-info">
                     <span id="user-display-name-2">Welcome, User!</span>
                 </div>
-                <button class="logout-btn" onclick="showLogoutConfirmation()">Logout</button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
             <h2 id="class-title">Class V - Mathematics</h2>
             <div id="chapters-list"></div>
@@ -121,7 +121,7 @@
                 <div class="user-info">
                     <span id="user-display-name-3">Welcome, User!</span>
                 </div>
-                <button class="logout-btn" onclick="showLogoutConfirmation()">Logout</button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
             <h2 id="chapter-title">Chapter: Numbers</h2>
             <div class="type-buttons">
@@ -145,7 +145,7 @@
                 <div class="user-info">
                     <span id="user-display-name-4">Welcome, User!</span>
                 </div>
-                <button class="logout-btn" onclick="showLogoutConfirmation()">Logout</button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
             <div class="reading-header">
                 <h2 id="reading-title">Reading: Chapter 1 - Numbers</h2>
@@ -165,7 +165,7 @@
                 <div class="user-info">
                     <span id="user-display-name-5">Welcome, User!</span>
                 </div>
-                <button class="logout-btn" onclick="showLogoutConfirmation()">Logout</button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
             <div class="test-header">
                 <h2 id="test-title">Test: Chapter 1 - Numbers</h2>
@@ -188,7 +188,7 @@
                 <div class="user-info">
                     <span id="user-display-name-6">Welcome, User!</span>
                 </div>
-                <button class="logout-btn" onclick="showLogoutConfirmation()">Logout</button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
             <h2>Test Results</h2>
             <div id="result-info"></div>
@@ -268,44 +268,7 @@
     <script src="js/chapter-loader.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/notifications.js"></script>
-    <script>
-        // Initialize enhanced features
-        document.addEventListener('DOMContentLoaded', function() {
-            // Show login message when user logs in
-            if (typeof firebase !== 'undefined') {
-                firebase.auth().onAuthStateChanged(function(user) {
-                    if (user && document.getElementById('class-container').style.display !== 'none') {
-                        setTimeout(() => {
-                            notificationSystem.showLoginMessage();
-                        }, 1000);
-                    }
-                });
-            }
-            
-            // Add form submission handlers
-            const loginForm = document.getElementById('login-form');
-            if (loginForm) {
-                loginForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    enhancedLogin();
-                });
-            }
-            
-            const signupForm = document.getElementById('signup-form');
-            if (signupForm) {
-                signupForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    enhancedSignup();
-                });
-            }
-        });
-        
-        // Enhanced test start function
-        function enhancedStartTest() {
-            notificationSystem.showTestInstructions();
-        }
-    </script>
+
 </body>
 
 </html>
