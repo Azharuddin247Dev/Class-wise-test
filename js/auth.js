@@ -185,7 +185,8 @@ function updateUserDisplay() {
     
     const emailPrefix = userData.email.split('@')[0];
     const emailSuffix = emailPrefix.slice(-4);
-    const displayName = `${userData.name}${emailSuffix}`;
+    // const displayName = `${userData.name}${emailSuffix}`;
+    const displayName = `${userData.name}***********${emailSuffix}@*****com`;
     
     // Update all user display elements
     const elements = [
