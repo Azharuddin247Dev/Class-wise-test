@@ -517,15 +517,48 @@ body {
     border-radius: 5px;
     font-size: 14px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s;
     margin: 0;
+    position: relative;
+    overflow: hidden;
 }
 
 .logout-btn:hover {
     background: #c82333;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }
 
-/* Performance Dashboard Styles */
+.logout-btn.logging-out {
+    background: #6c757d;
+    cursor: not-allowed;
+    animation: logoutPulse 1s infinite;
+}
+
+@keyframes logoutPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.fade-out {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.95); }
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Performance Dashboard Styles */rformance Dashboard Styles */
 .performance-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -1240,6 +1273,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 12px 20px;
+    width: 100%;
 }
 
 .nav-brand h2 {
@@ -1258,22 +1292,26 @@ body {
 
 .nav-links {
     display: flex;
-    gap: 8px;
+    gap: 24px;
+    align-items: center;
+    flex-shrink: 0;
 }
 
 .nav-link {
     color: #65676b;
     text-decoration: none;
-    padding: 8px 12px;
-    border-radius: 6px;
+    padding: 10px 16px;
+    border-radius: 8px;
     transition: all 0.2s;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 15px;
+    white-space: nowrap;
 }
 
 .nav-link:hover, .nav-link.active {
-    background: #f0f2f5;
+    background: #e3f2fd;
     color: #1877f2;
+    transform: translateY(-1px);
 }
 
 /* Enhanced Cards */
@@ -1397,17 +1435,27 @@ body {
         flex-direction: column;
         gap: 12px;
         padding: 12px 16px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .nav-brand h2 {
+        font-size: 20px;
     }
     
     .nav-links {
         flex-wrap: wrap;
         justify-content: center;
-        gap: 4px;
+        gap: 8px;
+        width: 100%;
     }
     
     .nav-link {
-        padding: 6px 10px;
+        padding: 8px 12px;
         font-size: 13px;
+        flex: 1;
+        text-align: center;
+        min-width: 80px;
     }
     
     .class-buttons {
