@@ -196,15 +196,24 @@ async function checkUserRole() {
   }
 }
 
+// Function to get consistent display name format
+function getDisplayName() {
+  if (!userData.email || !userData.name) {
+    return userData.name || "User";
+  }
+  
+  const emailPrefix = userData.email.split("@")[0];
+  const emailSuffix = emailPrefix.slice(-4);
+  return `${userData.name}*******${emailSuffix}@*****com`;
+}
+
 function updateUserDisplay() {
   if (!userData.email || !userData.name) {
     console.log("User data not ready for display");
     return;
   }
 
-  const emailPrefix = userData.email.split("@")[0];
-  const emailSuffix = emailPrefix.slice(-4);
-  const displayName = `${userData.name}*******${emailSuffix}@*****com`;
+  const displayName = getDisplayName();
 
   // Update all user display elements
   const elements = [
