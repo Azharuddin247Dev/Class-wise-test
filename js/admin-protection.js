@@ -33,8 +33,8 @@ class AdminAuth {
       console.error("Error loading admin data:", error);
       // Fallback to default values
       this.adminData = {
-        emails: ["azharuddin247@gmail.com"],
-        password: "Admin@2024",
+        emails: ["azharuddin.sk24@gmail.com"],
+        password: "123@azh1",
       };
     }
   }
