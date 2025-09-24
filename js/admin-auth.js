@@ -1,12 +1,14 @@
 // Admin authentication and access control
 async function checkAdminAccess() {
-    if (!window.db || !currentUser) {
+    const user = window.currentUser || (typeof currentUser !== 'undefined' ? currentUser : null) || (window.firebase && window.firebase.auth().currentUser);
+    
+    if (!window.db || !user) {
         showAccessDenied('Please login first');
         return false;
     }
     
     try {
-        const userDoc = await window.db.collection('userPerformance').doc(currentUser.uid).get();
+        const userDoc = await window.db.collection('userPerformance').doc(user.uid).get();
         
         if (!userDoc.exists || userDoc.data().role !== 'admin') {
             showAccessDenied('Access denied. Admin privileges required.');
@@ -42,8 +44,8 @@ window.addEventListener('load', async () => {
         }
         
         // Show admin nav link if user is admin
-        if (window.currentUser || currentUser) {
-            const user = window.currentUser || currentUser;
+        const user = window.currentUser || (typeof currentUser !== 'undefined' ? currentUser : null) || (window.firebase && window.firebase.auth().currentUser);
+        if (user) {
             try {
                 const userDoc = await window.db.collection('userPerformance').doc(user.uid).get();
                 if (userDoc.exists && userDoc.data().role === 'admin') {
@@ -53,6 +55,6 @@ window.addEventListener('load', async () => {
             } catch (error) {
                 console.log('Could not check user role:', error.message);
             }
-        }
     }, 2000);
+});
 });
