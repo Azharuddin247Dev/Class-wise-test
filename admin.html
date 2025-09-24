@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - WB Math Portal for classes V to VIII</title>
+    <title>Admin Panel - WB Math Portal</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         .admin-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
@@ -108,7 +108,18 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config-simple.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/admin-protection.js"></script>
     <script src="js/admin-auth.js"></script>
     <script src="js/admin-panel.js"></script>
+    <script>
+        // Protect admin page on load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const hasAccess = await adminAuth.verifyAdminAccess();
+            if (!hasAccess) {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
 </body>
 </html>
