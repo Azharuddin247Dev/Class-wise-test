@@ -17,35 +17,44 @@ class AdminAuth {
 
   async loadAdminData() {
     try {
-      const adminDoc = await firebase.firestore().collection('admin').doc('credentials').get();
+      const adminDoc = await firebase
+        .firestore()
+        .collection("admin")
+        .doc("credentials")
+        .get();
       if (adminDoc.exists) {
         this.adminData = adminDoc.data();
+        console.log("Admin data loaded:", this.adminData);
       } else {
-        // Create default admin document if it doesn't exist
+        console.log("Admin document does not exist, creating default");
         await this.createDefaultAdmin();
       }
     } catch (error) {
-      console.error('Error loading admin data:', error);
+      console.error("Error loading admin data:", error);
       // Fallback to default values
       this.adminData = {
-        emails: ['azharuddin247@gmail.com'],
-        password: 'Admin@2024'
+        emails: ["azharuddin247@gmail.com"],
+        password: "Admin@2024",
       };
     }
   }
 
   async createDefaultAdmin() {
     const defaultAdmin = {
-      emails: ['azharuddin247@gmail.com'],
-      password: 'Admin@2024',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      emails: ["azharuddin.sk24@gmail.com"],
+      password: "123@azh1",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
-    
+
     try {
-      await firebase.firestore().collection('admin').doc('credentials').set(defaultAdmin);
+      await firebase
+        .firestore()
+        .collection("admin")
+        .doc("credentials")
+        .set(defaultAdmin);
       this.adminData = defaultAdmin;
     } catch (error) {
-      console.error('Error creating admin document:', error);
+      console.error("Error creating admin document:", error);
     }
   }
 
@@ -66,7 +75,7 @@ class AdminAuth {
 
   async verifyAdminAccess() {
     const user = firebase.auth().currentUser;
-    
+
     // Reload admin data to get latest credentials
     await this.loadAdminData();
 
@@ -134,6 +143,13 @@ class AdminAuth {
   handlePasswordVerification(resolve) {
     const passwordInput = document.getElementById("admin-password-input");
     const enteredPassword = passwordInput?.value;
+
+    console.log("Entered password:", enteredPassword);
+    console.log("Expected password:", this.adminData?.password);
+    console.log(
+      "Password match:",
+      enteredPassword === this.adminData?.password
+    );
 
     if (enteredPassword === this.adminData?.password) {
       notificationSystem.closeNotification();
