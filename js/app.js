@@ -317,9 +317,7 @@ async function saveTestResult(score, percentage) {
         return;
     }
     
-    const emailPrefix = userData.email.split('@')[0];
-    const emailSuffix = emailPrefix.slice(-4);
-    const displayName = `${userData.name}${emailSuffix}`;
+    const displayName = getDisplayName();
     
     const now = new Date();
     const timeTaken = Date.now() - userData.testStartTime;
