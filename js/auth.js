@@ -178,22 +178,10 @@ function showClassSelection() {
   checkUserRole();
 }
 
-// Check user role and show admin link if admin
+// Check user role - admin functionality removed
 async function checkUserRole() {
-  if (!window.db || !currentUser) return;
-
-  try {
-    const userDoc = await window.db
-      .collection("userPerformance")
-      .doc(currentUser.uid)
-      .get();
-    if (userDoc.exists && userDoc.data().role === "admin") {
-      const adminLink = document.getElementById("admin-nav-link");
-      if (adminLink) adminLink.style.display = "inline-block";
-    }
-  } catch (error) {
-    console.log("Could not check user role:", error.message);
-  }
+  // Admin functionality disabled
+  return;
 }
 
 // Function to get consistent display name format
