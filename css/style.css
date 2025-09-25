@@ -1534,16 +1534,24 @@ body::before {
 }
 
 .chapter-btn h4 {
-    color: #333;
+    color: #1c1e21;
     margin-bottom: 8px;
     font-size: 18px;
     font-weight: 600;
 }
 
 .chapter-btn p {
-    color: #666;
+    color: #65676b;
     font-size: 14px;
     line-height: 1.5;
+}
+
+.chapter-btn:hover h4 {
+    color: white;
+}
+
+.chapter-btn:hover p {
+    color: rgba(255,255,255,0.9);
 }
 
 /* Enhanced Forms */
@@ -1831,15 +1839,59 @@ body::before {
         border-color: #2d88ff;
     }
     
-    .class-buttons button, .chapter-btn {
-        background: #3a3b3c;
+    .class-buttons button {
+        background: rgba(58, 59, 60, 0.9);
         border-color: #3a3b3c;
         color: #e4e6ea;
     }
     
-    .class-buttons button:hover, .chapter-btn:hover {
+    .class-buttons button small {
+        color: #b0b3b8 !important;
+    }
+    
+    .class-buttons button:hover {
         background: #4e4f50;
         border-color: #2d88ff;
+        color: white;
+    }
+    
+    .class-buttons button:hover small {
+        color: rgba(255,255,255,0.8) !important;
+    }
+    
+    .chapter-btn {
+        background: rgba(58, 59, 60, 0.9);
+        border-color: #3a3b3c;
+        color: #e4e6ea;
+    }
+    
+    .chapter-btn h4 {
+        color: #e4e6ea !important;
+    }
+    
+    .chapter-btn p {
+        color: #b0b3b8 !important;
+    }
+    
+    .chapter-btn:hover {
+        background: #4e4f50;
+        border-color: #2d88ff;
+    }
+    
+    .chapter-btn:hover h4 {
+        color: white !important;
+    }
+    
+    .chapter-btn:hover p {
+        color: rgba(255,255,255,0.9) !important;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        color: #e4e6ea;
+    }
+    
+    p {
+        color: #b0b3b8;
     }
 }
 
