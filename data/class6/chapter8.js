@@ -82,6 +82,58 @@ const class6Chapter8 = {
             answer: "7 km 300 m = 7.3 km."
         }
     ],
+
+    broad: [
+        {
+            question: "Represent 0.75 on a 10×10 grid.",
+            answer: "Shade 75 squares out of 100 to show 0.75 visually."
+        },
+        {
+            question: "Show addition of 1.25 + 2.4 using number line.",
+            answer: "Mark 1.25 and then move 2.4 units to reach 3.65."
+        },
+        {
+            question: "Show subtraction 5.6 - 3.25 using blocks or diagram.",
+            answer: "Take 5.6 blocks and remove 3.25 to get 2.35."
+        },
+        {
+            question: "Convert ₹12.75 to rupees and paise using visual coins.",
+            answer: "₹12.75 = 12 rupees + 75 paise; show with coins."
+        },
+        {
+            question: "Multiply 0.6 × 100 using a visual grid.",
+            answer: "0.6 × 100 = 60; shade 60 squares in a 100-square grid."
+        }
+    ],
+
+    broadTest: [
+        {
+            question: "Add 3.2 + 1.45.",
+            options: ["4.55", "4.65", "4.75", "4.85"],
+            correct: 1
+        },
+        {
+            question: "Subtract 7.5 - 2.35.",
+            options: ["5.15", "5.25", "5.35", "5.45"],
+            correct: 0
+        },
+        {
+            question: "Multiply 0.4 × 5.",
+            options: ["1", "2", "2.5", "20"],
+            correct: 2
+        },
+        {
+            question: "Divide 8.4 ÷ 10.",
+            options: ["0.84", "8.04", "84", "0.804"],
+            correct: 0
+        },
+        {
+            question: "Express ₹7.75 in decimal form.",
+            options: ["7.05", "7.55", "7.75", "7.95"],
+            correct: 2
+        }
+    ],
+
     test: [
         {
             question: "Which of these is equal to 3/10?",
@@ -121,7 +173,7 @@ const class6Chapter8 = {
         {
             question: "Multiply: 0.4 × 5.",
             options: ["1", "2", "2.5", "20"],
-            correct: 1
+            correct: 2
         },
         {
             question: "Divide: 8.4 ÷ 10.",
@@ -138,4 +190,3 @@ const class6Chapter8 = {
 
 // Export for dynamic loading
 window.class6Chapter8 = class6Chapter8;
-
