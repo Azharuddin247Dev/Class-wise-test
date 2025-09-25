@@ -359,9 +359,13 @@ function showTestResults() {
     document.getElementById('result-container').style.display = 'block';
     updateUserDisplay();
     
+    const questionType = userData.questionType === 'broad' ? 'Broad Questions' : 'Short Questions';
+    const typeIcon = userData.questionType === 'broad' ? '📝' : '⚡';
+    
     const resultInfo = document.getElementById('result-info');
     resultInfo.innerHTML = `
         <h3>Test Completed!</h3>
+        <p><strong>Category:</strong> ${typeIcon} ${questionType}</p>
         <p><strong>Score:</strong> ${score}/${userData.testQuestions.length}</p>
         <p><strong>Percentage:</strong> ${percentage}%</p>
         <p><strong>Grade:</strong> ${getGrade(percentage)}</p>
@@ -575,7 +579,7 @@ async function showGlobalLeaderboard() {
                 <span class="user-name">${result.displayName || result.name || 'Anonymous'}${isCurrentUser ? ' (You)' : ''}</span>
             </div>
             <div class="test-info">
-                <span class="class-chapter">Class ${result.class} - ${result.chapter} (${result.questionType || 'short'})</span>
+                <span class="class-chapter">Class ${result.class} - ${result.chapter} ${result.questionType === 'broad' ? '(📝 Broad)' : '(⚡ Short)'}</span>
                 <span class="score">${result.percentage}% (${result.score}/${result.totalQuestions})</span>
             </div>
             <div class="date-time">
