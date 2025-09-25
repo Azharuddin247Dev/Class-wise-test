@@ -13,6 +13,20 @@
 </head>
 
 <body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Floating Particles -->
+    <div class="floating-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
@@ -269,6 +283,79 @@
     <script src="js/chapter-loader.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/app.js"></script>
+    
+    <!-- Dynamic Effects Script -->
+    <script>
+        // Page loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('pageLoader');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.style.display = 'none', 500);
+                }
+            }, 1000);
+        });
+        
+        // Dynamic cursor effect
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.querySelector('.cursor-glow');
+            if (!cursor) {
+                const glow = document.createElement('div');
+                glow.className = 'cursor-glow';
+                document.body.appendChild(glow);
+            }
+            const glowElement = document.querySelector('.cursor-glow');
+            glowElement.style.left = e.clientX + 'px';
+            glowElement.style.top = e.clientY + 'px';
+        });
+        
+        // Parallax effect for container
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const containers = document.querySelectorAll('.container');
+            containers.forEach(container => {
+                container.style.transform = `translateY(${scrolled * 0.1}px)`;
+            });
+        });
+        
+        // Add ripple effect to buttons
+        document.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple';
+                e.target.appendChild(ripple);
+                
+                const rect = e.target.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                
+                setTimeout(() => ripple.remove(), 600);
+            }
+        });
+        
+        // Smooth reveal animation for elements
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const animateElements = document.querySelectorAll('.container > div, .class-buttons button, .chapter-btn');
+            animateElements.forEach(el => observer.observe(el));
+        });
+    </script>
 
 </body>
 
