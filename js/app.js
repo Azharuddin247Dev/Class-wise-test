@@ -111,7 +111,7 @@ async function displayCurrentBroadPage() {
         const broadQuestions = chapterData.broad || [];
         
         if (broadQuestions.length === 0) {
-            content.innerHTML = '<div style="text-align: center; padding: 40px;"><p>Broad questions not available for this chapter.</p><button onclick="goBackToChapters()" style="margin-top: 20px;">Back to Chapters</button></div>';
+            content.innerHTML = '<div style="text-align: center; padding: 40px;"><h3>📝 Broad Questions</h3><p style="color: #1877f2; font-size: 16px; margin: 20px 0;">🕰️ Broad questions will be added soon!</p><p style="color: #65676b;">We are working on adding detailed problem-solving questions for this chapter.</p><button onclick="goBackToChapters()" style="margin-top: 20px;">Back to Chapters</button></div>';
             return;
         }
         
@@ -278,6 +278,14 @@ async function startTest() {
         if (userData.questionType === 'broad') {
             const chapterData = await window.chapterLoader.loadChapter(userData.selectedClass, userData.selectedChapter.id);
             testQuestions = chapterData.broadTest || [];
+            
+            if (testQuestions.length === 0) {
+                document.getElementById('reading-container').style.display = 'none';
+                document.getElementById('questions-content').innerHTML = 
+                    '<div style="text-align: center; padding: 40px;"><h3>📝 Broad Test</h3><p style="color: #1877f2; font-size: 16px; margin: 20px 0;">🕰️ Broad test questions will be added soon!</p><p style="color: #65676b;">We are working on adding test questions for broad problems.</p><button onclick="goBackToChapters()" style="margin-top: 20px;">Back to Chapters</button></div>';
+                document.getElementById('reading-container').style.display = 'block';
+                return;
+            }
         } else {
             testQuestions = await getTestQuestionsForChapter(userData.selectedClass, userData.selectedChapter.id);
         }
