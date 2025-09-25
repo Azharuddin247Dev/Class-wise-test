@@ -160,8 +160,8 @@
         function generateDisplayName(name, email) {
             if (!email || !name) return name || 'Anonymous';
             const emailPrefix = email.split('@')[0];
-            const emailSuffix = emailPrefix.slice(-4);
-            return `${name}*******${emailSuffix}@*****com`;
+            const emailSuffix = emailPrefix.slice(-5);
+            return `${name}${emailSuffix}`;
         }
         
         // Load leaderboard when page loads
