@@ -367,8 +367,9 @@ body {
     border-radius: 12px;
     font-weight: bold;
     font-size: 14px;
-    min-width: 35px;
+    min-width: 40px;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .user-name {
@@ -1179,7 +1180,15 @@ body::before {
     }
     
     .rank-info {
-        gap: 10px;
+        gap: 12px;
+        align-items: center;
+    }
+    
+    .rank {
+        min-width: 45px;
+        padding: 6px 10px;
+        font-size: 15px;
+        font-weight: 700;
     }
     
     .stats-grid {
