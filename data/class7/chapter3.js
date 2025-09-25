@@ -50,7 +50,7 @@ const class7Chapter3 = {
             answer: "Arrange: 1,3,5,7,9. Median = 5."
         },
         {
-            question: "What is the probability?",
+            question: "What is probability?",
             answer: "Probability is the chance of an event happening, expressed as a fraction between 0 and 1."
         },
         {
@@ -82,6 +82,58 @@ const class7Chapter3 = {
             answer: "Graphs help us understand data and make comparisons quickly."
         }
     ],
+
+    broad: [
+        {
+            question: "Draw a tally chart for 15 students liking three fruits: Apple(6), Banana(5), Mango(4).",
+            answer: "Apple: ||||||, Banana: |||||, Mango: ||||"
+        },
+        {
+            question: "Represent marks of students (12, 15, 18, 15, 20) using a frequency table.",
+            answer: "Marks: 12(1), 15(2), 18(1), 20(1)"
+        },
+        {
+            question: "Draw a pictograph for books read by students: A(3), B(5), C(2).",
+            answer: "Use one book symbol for one book; A: 3 symbols, B: 5 symbols, C: 2 symbols."
+        },
+        {
+            question: "Draw a bar graph for data: Monday(4), Tuesday(6), Wednesday(5).",
+            answer: "Draw bars of heights 4, 6, 5 for Monday, Tuesday, Wednesday."
+        },
+        {
+            question: "Find mean, median, and mode of 5, 7, 7, 8, 10.",
+            answer: "Mean: (5+7+7+8+10)/5 = 37/5 = 7.4; Median: 7; Mode: 7"
+        }
+    ],
+
+    broadTest: [
+        {
+            question: "Find the mean of 4, 6, 8.",
+            options: ["6", "5", "7", "8"],
+            correct: 0
+        },
+        {
+            question: "Find the median of 3, 5, 7, 9, 11.",
+            options: ["5", "7", "9", "6"],
+            correct: 1
+        },
+        {
+            question: "Find the mode of 2, 3, 3, 4, 5.",
+            options: ["2", "3", "4", "5"],
+            correct: 1
+        },
+        {
+            question: "Probability of getting a tail in a coin toss?",
+            options: ["1/2", "1/3", "1/4", "0"],
+            correct: 0
+        },
+        {
+            question: "Probability of rolling a 7 on a standard die?",
+            options: ["0", "1/6", "1/3", "1/2"],
+            correct: 0
+        }
+    ],
+
     test: [
         {
             question: "What is a tally mark?",
