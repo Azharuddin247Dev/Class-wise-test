@@ -1,229 +1,229 @@
-// Class 5 - Chapter 2: Addition and Subtraction
-const class5Chapter2 = {
+// Class 5 - Chapter 3: Multiplication
+const class5Chapter3 = {
   reading: [
     {
-      question: "What is addition?",
+      question: "What is multiplication?",
       answer:
-        "Addition is combining two or more numbers to find their total or sum.",
+        "Multiplication is repeated addition of the same number. For example, 4 × 3 means 4 + 4 + 4 = 12.",
     },
     {
-      question: "What is the symbol for addition?",
-      answer: "The symbol for addition is '+' (plus sign).",
+      question: "What is the symbol of multiplication?",
+      answer: "The symbol of multiplication is '×'.",
     },
     {
-      question: "What are addends?",
+      question: "What are the numbers called in multiplication?",
       answer:
-        "Addends are the numbers being added together in an addition problem.",
+        "In multiplication, the numbers being multiplied are called factors, and the answer is called the product.",
     },
     {
-      question: "What is the sum?",
+      question: "What is the product of 7 × 5?",
+      answer: "The product of 7 × 5 is 35.",
+    },
+    {
+      question: "What is the multiplicative identity?",
       answer:
-        "The sum is the result or answer when two or more numbers are added together.",
+        "The multiplicative identity is 1. Multiplying any number by 1 gives the same number.",
     },
     {
-      question: "What is subtraction?",
+      question: "What is the zero property of multiplication?",
+      answer: "Any number multiplied by 0 is always 0. Example: 15 × 0 = 0.",
+    },
+    {
+      question: "What is the commutative property of multiplication?",
       answer:
-        "Subtraction is taking away one number from another to find the difference.",
+        "In multiplication, changing the order of numbers does not change the product. Example: 4 × 6 = 6 × 4.",
     },
     {
-      question: "What is the symbol for subtraction?",
-      answer: "The symbol for subtraction is '-' (minus sign).",
-    },
-    {
-      question: "What is the minuend?",
+      question: "What is the associative property of multiplication?",
       answer:
-        "The minuend is the number from which another number is subtracted.",
+        "In multiplication, grouping of numbers does not change the product. Example: (2 × 3) × 4 = 2 × (3 × 4).",
     },
     {
-      question: "What is the subtrahend?",
+      question: "What is the distributive property?",
       answer:
-        "The subtrahend is the number that is subtracted from the minuend.",
+        "Distributive property states that a × (b + c) = (a × b) + (a × c).",
     },
     {
-      question: "What is the difference?",
+      question: "What is a multiplication table?",
       answer:
-        "The difference is the result when one number is subtracted from another.",
+        "A multiplication table is a chart that shows the products of numbers, usually from 1 to 10 or 12.",
     },
     {
-      question: "What is regrouping in addition?",
-      answer:
-        "Regrouping (or carrying) is when the sum of digits in a column is 10 or more, so we carry over to the next column.",
+      question: "What is 9 × 8?",
+      answer: "9 × 8 = 72.",
     },
     {
-      question: "What is regrouping in subtraction?",
-      answer:
-        "Regrouping (or borrowing) is when we need to borrow from the next higher place value to subtract.",
+      question: "What is 12 × 12?",
+      answer: "12 × 12 = 144.",
     },
     {
-      question: "What is the commutative property of addition?",
-      answer:
-        "The commutative property states that changing the order of addends doesn't change the sum. Example: 3 + 5 = 5 + 3.",
+      question: "If 6 × 4 = 24, what is 4 × 6?",
+      answer: "4 × 6 = 24. Multiplication is commutative.",
     },
     {
-      question: "What is the associative property of addition?",
+      question: "What is repeated addition?",
       answer:
-        "The associative property states that grouping of addends doesn't change the sum. Example: (2 + 3) + 4 = 2 + (3 + 4).",
+        "Repeated addition is adding the same number again and again. Multiplication is a shortcut for repeated addition.",
     },
     {
-      question: "What is the identity property of addition?",
-      answer:
-        "The identity property states that adding zero to any number gives the same number. Example: 7 + 0 = 7.",
+      question: "Write 3 × 5 as repeated addition.",
+      answer: "3 × 5 = 5 + 5 + 5 = 15.",
     },
     {
-      question: "How do you check addition?",
-      answer:
-        "You can check addition by adding the numbers in different order or by using subtraction.",
+      question: "Write 6 × 2 as repeated addition.",
+      answer: "6 × 2 = 2 + 2 + 2 + 2 + 2 + 2 = 12.",
     },
     {
-      question: "How do you check subtraction?",
+      question: "What happens when a number is multiplied by 10?",
       answer:
-        "You can check subtraction by adding the difference to the subtrahend to get the minuend.",
+        "When a number is multiplied by 10, a zero is added at the end of the number. Example: 25 × 10 = 250.",
     },
     {
-      question: "What is mental math?",
+      question: "What happens when a number is multiplied by 100?",
       answer:
-        "Mental math is doing calculations in your head without writing them down.",
+        "When a number is multiplied by 100, two zeros are added at the end. Example: 36 × 100 = 3600.",
     },
     {
-      question: "What is estimation in addition?",
-      answer:
-        "Estimation in addition is rounding numbers to make addition easier and get an approximate answer.",
+      question: "What is the product of the smallest 2-digit number and 2?",
+      answer: "The smallest 2-digit number is 10. 10 × 2 = 20.",
     },
     {
-      question: "What is estimation in subtraction?",
-      answer:
-        "Estimation in subtraction is rounding numbers to make subtraction easier and get an approximate answer.",
-    },
-    {
-      question: "When do we use addition in real life?",
-      answer:
-        "We use addition when counting money, finding total items, calculating time, and many other daily activities.",
+      question: "What is the product of the largest 2-digit number and 1?",
+      answer: "The largest 2-digit number is 99. 99 × 1 = 99.",
     },
   ],
 
+  // Word problems with detailed answers
   broad: [
     {
       question:
-        "Ravi has 356 marbles and his friend gives him 478 more. How many marbles does Ravi have now?",
-      answer:
-        "Step 1: Total marbles = 356 + 478 = 834\nTherefore, Ravi has 834 marbles in total.",
+        "A basket has 12 apples. If there are 8 such baskets, how many apples are there in total?",
+      answer: "12 × 8 = 96 apples in total.",
     },
     {
       question:
-        "A shopkeeper had 1,250 pencils. He sold 786 pencils. How many pencils are left with him?",
-      answer:
-        "Step 1: Remaining pencils = 1,250 - 786 = 464\nTherefore, 464 pencils are left.",
+        "One packet has 24 chocolates. How many chocolates are there in 15 packets?",
+      answer: "24 × 15 = 360 chocolates.",
     },
     {
       question:
-        "A library has 2,345 books. The school bought 678 more books. How many books are there in the library now?",
-      answer:
-        "Step 1: Total books = 2,345 + 678 = 3,023\nTherefore, there are 3,023 books in the library.",
+        "A classroom has 6 rows of benches, with 8 benches in each row. How many benches are there in total?",
+      answer: "6 × 8 = 48 benches.",
     },
     {
       question:
-        "In a school election, 1,235 students voted for Rina and 1,678 students voted for Mina. Who got more votes and by how many?",
-      answer:
-        "Step 1: Difference = 1,678 - 1,235 = 443\nTherefore, Mina got 443 more votes than Rina.",
+        "A farmer plants 125 mango trees in one row. If he plants 12 rows, how many mango trees are there in total?",
+      answer: "125 × 12 = 1500 mango trees.",
+    },
+    {
+      question: "A pen costs ₹15. What is the cost of 48 pens?",
+      answer: "15 × 48 = ₹720.",
     },
     {
       question:
-        "A fruit seller had 954 apples. He sold 328 apples in the morning and 417 in the evening. How many apples are left?",
-      answer:
-        "Step 1: Apples sold = 328 + 417 = 745\nStep 2: Apples left = 954 - 745 = 209\nTherefore, 209 apples are left.",
+        "If a worker earns ₹350 per day, how much will he earn in 25 days?",
+      answer: "350 × 25 = ₹8750.",
     },
   ],
 
+  // Word problem multiple-choice questions
   broadTest: [
     {
       question:
-        "Ravi has 356 marbles and his friend gives him 478 more. Total marbles?",
-      options: ["834", "824", "844", "854"],
+        "A basket has 12 apples. If there are 8 baskets, how many apples are there?",
+      options: ["96", "88", "108", "100"],
       correct: 0,
     },
     {
       question:
-        "A shopkeeper had 1,250 pencils. He sold 786 pencils. How many are left?",
-      options: ["454", "464", "474", "444"],
-      correct: 1,
-    },
-    {
-      question:
-        "A library had 2,345 books. School bought 678 more. Total books?",
-      options: ["3,013", "3,025", "3,023", "3,033"],
+        "One packet has 24 chocolates. How many chocolates are there in 15 packets?",
+      options: ["340", "350", "360", "370"],
       correct: 2,
     },
     {
       question:
-        "In a school election: Rina = 1,235 votes, Mina = 1,678 votes. Who got more and by how many?",
-      options: ["Mina by 443", "Rina by 443", "Mina by 445", "Rina by 445"],
-      correct: 0,
+        "A classroom has 6 rows of benches, with 8 benches in each row. How many benches are there?",
+      options: ["42", "48", "36", "56"],
+      correct: 1,
     },
     {
-      question: "Fruit seller had 954 apples. Sold 328 + 417. Apples left?",
-      options: ["199", "209", "219", "229"],
-      correct: 1,
+      question:
+        "A farmer plants 125 mango trees in one row. If he plants 12 rows, how many mango trees are there?",
+      options: ["1200", "1400", "1500", "1600"],
+      correct: 2,
+    },
+    {
+      question: "A pen costs ₹15. What is the cost of 48 pens?",
+      options: ["₹680", "₹700", "₹720", "₹750"],
+      correct: 2,
+    },
+    {
+      question:
+        "If a worker earns ₹350 per day, how much will he earn in 25 days?",
+      options: ["₹8750", "₹9000", "₹9500", "₹8700"],
+      correct: 0,
     },
   ],
 
+  // Short MCQs
   test: [
     {
-      question: "What is 456 + 234?",
-      options: ["680", "690", "670", "700"],
+      question: "What is the product of 8 × 7?",
+      options: ["54", "56", "64", "58"],
       correct: 1,
     },
     {
-      question: "What is 800 - 345?",
-      options: ["455", "465", "445", "475"],
+      question: "Any number multiplied by 0 is:",
+      options: ["0", "1", "Same number", "Infinity"],
       correct: 0,
     },
     {
-      question: "Which property shows that 5 + 3 = 3 + 5?",
-      options: ["Associative", "Commutative", "Identity", "Distributive"],
+      question: "What is the multiplicative identity?",
+      options: ["0", "1", "10", "100"],
       correct: 1,
     },
     {
-      question: "What is the sum of 127 + 0?",
-      options: ["0", "127", "128", "126"],
-      correct: 1,
+      question: "What is 15 × 10?",
+      options: ["150", "115", "151", "105"],
+      correct: 0,
     },
     {
-      question: "In 789 - 456 = 333, what is the minuend?",
-      options: ["456", "333", "789", "123"],
+      question: "Which of these is true?",
+      options: [
+        "5 × 7 = 7 × 5",
+        "6 × 2 ≠ 2 × 6",
+        "3 × 4 = 3 + 4",
+        "10 × 0 = 10",
+      ],
+      correct: 0,
+    },
+    {
+      question: "What is 25 × 100?",
+      options: ["2500", "250", "25000", "2050"],
+      correct: 0,
+    },
+    {
+      question: "Which property says a × (b + c) = (a × b) + (a × c)?",
+      options: ["Commutative", "Associative", "Distributive", "Identity"],
       correct: 2,
     },
     {
-      question: "Estimate 398 + 203 to the nearest hundred.",
-      options: ["500", "600", "700", "400"],
+      question: "What is 12 × 12?",
+      options: ["122", "124", "144", "132"],
+      correct: 2,
+    },
+    {
+      question: "Write 4 × 3 as repeated addition.",
+      options: ["4 + 4 + 4", "3 + 3 + 3 + 3", "4 + 3", "3 × 4"],
       correct: 1,
     },
     {
-      question: "What is 1000 - 567?",
-      options: ["433", "443", "533", "543"],
-      correct: 0,
-    },
-    {
-      question: "Which shows regrouping in addition?",
-      options: ["25 + 30", "47 + 28", "100 + 200", "50 + 40"],
-      correct: 1,
-    },
-    {
-      question: "What is the identity element for addition?",
-      options: ["1", "0", "10", "-1"],
-      correct: 1,
-    },
-    {
-      question: "How do you check if 654 - 298 = 356 is correct?",
-      options: [
-        "Add 654 + 298",
-        "Add 356 + 298",
-        "Subtract 654 - 356",
-        "Multiply 356 × 298",
-      ],
-      correct: 1,
+      question: "The product of the largest 2-digit number and 1 is:",
+      options: ["100", "98", "99", "101"],
+      correct: 2,
     },
   ],
 };
 
 // Export for dynamic loading
-window.class5Chapter2 = class5Chapter2;
+window.class5Chapter3 = class5Chapter3;
