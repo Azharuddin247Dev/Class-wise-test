@@ -82,6 +82,58 @@ const class6Chapter2 = {
             answer: "7 ÷ 2 = 3.5, which is not a whole number."
         }
     ],
+
+    broad: [
+        {
+            question: "Rina has 345 whole number cards, and Ravi has 578 cards. How many cards do they have together?",
+            answer: "Step 1: Total cards = 345 + 578 = 923\nTherefore, Rina and Ravi together have 923 cards."
+        },
+        {
+            question: "A shop has 1,245 pencils. They sold 678 pencils. How many are left?",
+            answer: "Step 1: Remaining pencils = 1,245 - 678 = 567\nTherefore, 567 pencils are left."
+        },
+        {
+            question: "Multiply 123 whole number stickers by 4. What is the total?",
+            answer: "Step 1: Total stickers = 123 × 4 = 492\nTherefore, the total is 492."
+        },
+        {
+            question: "Divide 987 sweets equally among 3 children. How many sweets will each child get?",
+            answer: "Step 1: Sweets per child = 987 ÷ 3 = 329\nTherefore, each child gets 329 sweets."
+        },
+        {
+            question: "A number is 456. Find its successor and predecessor.",
+            answer: "Successor = 456 + 1 = 457\nPredecessor = 456 – 1 = 455\nTherefore, successor is 457 and predecessor is 455."
+        }
+    ],
+
+    broadTest: [
+        {
+            question: "Rina has 345 cards, Ravi has 578. Total cards?",
+            options: ["923", "913", "933", "903"],
+            correct: 0
+        },
+        {
+            question: "Shop had 1,245 pencils, sold 678. Pencils left?",
+            options: ["567", "577", "557", "587"],
+            correct: 0
+        },
+        {
+            question: "Multiply 123 × 4. Total stickers?",
+            options: ["492", "482", "502", "472"],
+            correct: 0
+        },
+        {
+            question: "Divide 987 ÷ 3. Sweets per child?",
+            options: ["329", "330", "328", "327"],
+            correct: 0
+        },
+        {
+            question: "Successor and predecessor of 456?",
+            options: ["457 & 455", "456 & 454", "458 & 454", "455 & 457"],
+            correct: 0
+        }
+    ],
+
     test: [
         {
             question: "Which is the smallest whole number?",
