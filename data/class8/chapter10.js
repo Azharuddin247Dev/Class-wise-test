@@ -32,26 +32,17 @@ const class8Chapter10 = {
       question: "Perimeter of a rectangle?",
       answer: "Perimeter of a rectangle = 2(length + breadth).",
     },
-    {
-      question: "Area of a triangle?",
-      answer: "Area = 1/2 × base × height.",
-    },
+    { question: "Area of a triangle?", answer: "Area = 1/2 × base × height." },
     {
       question: "Perimeter of a triangle?",
       answer: "Perimeter = sum of all three sides.",
     },
-    {
-      question: "Area of a parallelogram?",
-      answer: "Area = base × height.",
-    },
+    { question: "Area of a parallelogram?", answer: "Area = base × height." },
     {
       question: "Area of a trapezium?",
       answer: "Area = 1/2 × (sum of parallel sides) × height.",
     },
-    {
-      question: "Volume of a cube?",
-      answer: "Volume = side³.",
-    },
+    { question: "Volume of a cube?", answer: "Volume = side³." },
     {
       question: "Volume of a cuboid?",
       answer: "Volume = length × breadth × height.",
@@ -87,6 +78,64 @@ const class8Chapter10 = {
         "Used in construction, packaging, painting, and designing objects.",
     },
   ],
+
+  broad: [
+    { question: "Perimeter of rectangle with l=7, b=3?", answer: "20" },
+    { question: "Area of square with side 6?", answer: "36" },
+    { question: "Volume of cube with side 5?", answer: "125" },
+    { question: "Surface area of cube with side 4?", answer: "96" },
+    { question: "Volume of cylinder with r=2, h=7 (π≈3.14)?", answer: "87.92" },
+    {
+      question: "Surface area of cone with r=3, l=5 (π≈3.14)?",
+      answer: "75.36",
+    },
+    { question: "Area of trapezium with a=6, b=4, h=5?", answer: "25" },
+    { question: "Perimeter of triangle with sides 5, 6, 7?", answer: "18" },
+  ],
+
+  broadTest: [
+    {
+      question: "Perimeter of square with side 8?",
+      options: ["16", "32", "24", "40"],
+      correct: 1,
+    },
+    {
+      question: "Area of rectangle with l=12, b=5?",
+      options: ["60", "17", "30", "25"],
+      correct: 0,
+    },
+    {
+      question: "Volume of cuboid with l=4, b=3, h=2?",
+      options: ["24", "9", "12", "18"],
+      correct: 0,
+    },
+    {
+      question: "Surface area of cuboid with l=5, b=2, h=3?",
+      options: ["62", "52", "58", "60"],
+      correct: 1,
+    },
+    {
+      question: "Volume of cylinder r=3, h=10 (π≈3.14)?",
+      options: ["282.6", "314", "300", "288"],
+      correct: 0,
+    },
+    {
+      question: "Area of triangle b=8, h=5?",
+      options: ["20", "40", "10", "30"],
+      correct: 0,
+    },
+    {
+      question: "Volume of cone r=4, h=9 (π≈3.14)?",
+      options: ["150.72", "160", "140", "180"],
+      correct: 0,
+    },
+    {
+      question: "Surface area of cylinder r=5, h=7 (π≈3.14)?",
+      options: ["376.8", "360", "342", "350"],
+      correct: 0,
+    },
+  ],
+
   test: [
     {
       question: "Perimeter of a square with side 5 cm?",
