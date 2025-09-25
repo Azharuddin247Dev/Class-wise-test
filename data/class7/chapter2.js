@@ -82,6 +82,58 @@ const class7Chapter2 = {
             answer: "They are used in measurements, money calculations, recipes, and many other real-life situations."
         }
     ],
+
+    broad: [
+        {
+            question: "Add: 2/3 + 1/4",
+            answer: "Convert to like fractions: 2/3 = 8/12, 1/4 = 3/12; Sum = 8/12 + 3/12 = 11/12."
+        },
+        {
+            question: "Subtract: 7/5 – 2/3",
+            answer: "Convert to like fractions: 7/5 = 21/15, 2/3 = 10/15; Difference = 21/15 – 10/15 = 11/15."
+        },
+        {
+            question: "Convert 9/4 into a mixed fraction.",
+            answer: "9 ÷ 4 = 2 1/4."
+        },
+        {
+            question: "Multiply decimals: 1.2 × 0.5",
+            answer: "1.2 × 0.5 = 0.6."
+        },
+        {
+            question: "Divide decimals: 0.8 ÷ 0.2",
+            answer: "0.8 ÷ 0.2 = 4."
+        }
+    ],
+
+    broadTest: [
+        {
+            question: "Add: 3/5 + 1/2",
+            options: ["11/10", "4/10", "5/10", "7/10"],
+            correct: 0
+        },
+        {
+            question: "Subtract: 7/8 – 1/4",
+            options: ["5/8", "6/8", "7/12", "3/8"],
+            correct: 0
+        },
+        {
+            question: "Convert 11/3 into a mixed fraction",
+            options: ["3 2/3", "2 2/3", "3 1/3", "2 1/3"],
+            correct: 0
+        },
+        {
+            question: "Convert 0.45 into a fraction",
+            options: ["9/20", "45/100", "Both correct", "1/2"],
+            correct: 2
+        },
+        {
+            question: "Multiply decimals: 0.4 × 0.3",
+            options: ["0.12", "0.7", "0.1", "0.14"],
+            correct: 0
+        }
+    ],
+
     test: [
         {
             question: "Which of these is a proper fraction?",
