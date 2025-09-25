@@ -204,7 +204,7 @@ function getDisplayName() {
   
   const emailPrefix = userData.email.split("@")[0];
   const emailSuffix = emailPrefix.slice(-5);
-  return `${userData.name}${emailSuffix}`;
+  return `${userData.name}******${emailSuffix}@*****com`;
 }
 
 function updateUserDisplay() {
