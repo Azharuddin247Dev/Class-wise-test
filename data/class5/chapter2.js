@@ -1,4 +1,4 @@
-// Class 5 - Chapter 2: Addition and Subtraction
+// Class 5 - Chapter 2: Addition and Subtraction 
 const class5Chapter2 = {
   reading: [
     {
