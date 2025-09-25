@@ -81,13 +81,98 @@ function selectChapter(chapter) {
 
 function selectType(type) {
     if (type === 'broad') {
-        document.getElementById('coming-soon-modal').style.display = 'flex';
+        loadBroadContent();
         return;
     }
     
     // Load reading content for short questions
     loadReadingContent();
 }
+
+function loadBroadContent() {
+    document.getElementById('type-container').style.display = 'none';
+    document.getElementById('reading-container').style.display = 'block';
+    updateUserDisplay();
+    
+    document.getElementById('reading-title').textContent = 
+        `Broad Questions: ${userData.selectedChapter.name}`;
+    
+    userData.currentPage = 1;
+    userData.totalPages = 4;
+    
+    displayCurrentBroadPage();
+}
+
+async function displayCurrentBroadPage() {
+    const content = document.getElementById('questions-content');
+    
+    // Show loading animation
+    content.innerHTML = `
+        <div class="reading-loader">
+            <div class="loader-books">
+                <div class="book book1">📝</div>
+                <div class="book book2">📚</div>
+                <div class="book book3">📖</div>
+            </div>
+            <div class="loader-text">
+                <h3>✨ Loading Broad Questions ✨</h3>
+                <p>Preparing detailed solutions...</p>
+                <div class="progress-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    try {
+        const questionsData = await getBroadQuestionsForChapter(userData.selectedClass, userData.selectedChapter.id);
+        
+        if (questionsData.length === 0) {
+            content.innerHTML = '<div style="text-align: center; padding: 40px;"><p>Broad questions not available for this chapter.</p><button onclick="goBackToChapters()" style="margin-top: 20px;">Back to Chapters</button></div>';
+            return;
+        }
+        
+        const startIndex = (userData.currentPage - 1) * 3;
+        const endIndex = startIndex + 3;
+        const pageQuestions = questionsData.slice(startIndex, endIndex);
+        
+        content.innerHTML = '';
+        
+        pageQuestions.forEach((item, index) => {
+            setTimeout(() => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-item question-appear';
+                questionDiv.innerHTML = `
+                    <h4>Q${startIndex + index + 1}. ${item.question}</h4>
+                    <div style="margin-top: 15px;">
+                        <p><strong>Solution Approach:</strong></p>
+                        <p style="margin: 10px 0; padding: 15px; background: #e8f4fd; border-radius: 6px;">${item.approach}</p>
+                        <p><strong>Answer:</strong></p>
+                        <p style="margin: 10px 0; line-height: 1.6;">${item.answer}</p>
+                        ${item.example ? `<p><strong>Example:</strong></p><p style="margin: 10px 0; padding: 10px; background: #f0f8f0; border-radius: 6px;">${item.example}</p>` : ''}
+                    </div>
+                `;
+                content.appendChild(questionDiv);
+            }, index * 150);
+        });
+        
+        userData.totalPages = Math.ceil(questionsData.length / 3);
+        
+        document.getElementById('current-page').textContent = userData.currentPage;
+        document.getElementById('total-pages').textContent = userData.totalPages;
+        
+        document.getElementById('prev-btn').disabled = userData.currentPage === 1;
+        document.getElementById('next-btn').style.display = 
+            userData.currentPage === userData.totalPages ? 'none' : 'inline-block';
+        document.getElementById('test-btn').style.display = 'none';
+    } catch (error) {
+        content.innerHTML = '<div style="text-align: center; padding: 40px;"><p>Error loading broad questions.</p><button onclick="goBackToChapters()" style="margin-top: 20px;">Back to Chapters</button></div>';
+    }
+}
+
+
 
 function loadReadingContent() {
     document.getElementById('type-container').style.display = 'none';
@@ -683,6 +768,11 @@ function closeModal() {
 // Load reading questions using dynamic loader
 async function getQuestionsForChapter(classNum, chapterId) {
     return await window.chapterLoader.getReadingQuestions(classNum, chapterId);
+}
+
+// Load broad questions using dynamic loader
+async function getBroadQuestionsForChapter(classNum, chapterId) {
+    return await window.chapterLoader.getBroadQuestions(classNum, chapterId);
 }
 
 // Load test questions using dynamic loader
