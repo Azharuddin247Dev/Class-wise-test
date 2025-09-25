@@ -2229,3 +2229,6 @@ body::before {
         background: #2d88ff;
     }
 }
+#admin-nav-link {
+    display: none !important;
+}
