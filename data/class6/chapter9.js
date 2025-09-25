@@ -82,6 +82,58 @@ const class6Chapter9 = {
             answer: "We can use a table, pictograph, or bar graph to represent their marks."
         }
     ],
+
+    broad: [
+        {
+            question: "Draw a tally chart for 12 students liking three different fruits: Apple(5), Banana(4), Mango(3).",
+            answer: "Apple: |||||, Banana: ||||, Mango: |||"
+        },
+        {
+            question: "Represent the marks of students (12, 15, 18, 15, 20) using a frequency table.",
+            answer: "Marks: 12(1), 15(2), 18(1), 20(1)"
+        },
+        {
+            question: "Draw a pictograph for number of books read by students: A(3), B(5), C(2).",
+            answer: "Use one book symbol to represent one book; A: 3 symbols, B: 5 symbols, C: 2 symbols."
+        },
+        {
+            question: "Draw a bar graph for the data: Monday(3), Tuesday(5), Wednesday(4).",
+            answer: "Draw bars with heights 3, 5, 4 for Monday, Tuesday, Wednesday respectively."
+        },
+        {
+            question: "Find the mean, median, and mode of 5, 7, 7, 8, 10.",
+            answer: "Mean: (5+7+7+8+10)/5 = 37/5 = 7.4; Median: 7; Mode: 7"
+        }
+    ],
+
+    broadTest: [
+        {
+            question: "Find the mean of 4, 6, 8.",
+            options: ["6", "5", "7", "8"],
+            correct: 0
+        },
+        {
+            question: "Find the median of 3, 5, 7, 9, 11.",
+            options: ["5", "7", "9", "6"],
+            correct: 1
+        },
+        {
+            question: "Find the mode of 2, 3, 3, 4, 5.",
+            options: ["2", "3", "4", "5"],
+            correct: 1
+        },
+        {
+            question: "Probability of getting a tail in a coin toss?",
+            options: ["1/2", "1/3", "1/4", "0"],
+            correct: 0
+        },
+        {
+            question: "Probability of rolling a 7 on a standard die?",
+            options: ["0", "1/6", "1/3", "1/2"],
+            correct: 0
+        }
+    ],
+
     test: [
         {
             question: "What is a tally mark?",
