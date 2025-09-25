@@ -363,13 +363,15 @@ body {
 .rank {
     background: #667eea;
     color: white;
-    padding: 4px 8px;
+    padding: 6px 12px;
     border-radius: 12px;
     font-weight: bold;
     font-size: 14px;
-    min-width: 40px;
+    min-width: 60px;
     text-align: center;
     flex-shrink: 0;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 .user-name {
@@ -1185,8 +1187,8 @@ body::before {
     }
     
     .rank {
-        min-width: 45px;
-        padding: 6px 10px;
+        min-width: 65px;
+        padding: 8px 12px;
         font-size: 15px;
         font-weight: 700;
     }
