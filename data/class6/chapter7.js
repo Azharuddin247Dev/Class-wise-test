@@ -82,6 +82,58 @@ const class6Chapter7 = {
             answer: "2/5 × 10 = 4."
         }
     ],
+
+    broad: [
+        {
+            question: "Draw a pie chart to represent 3/4 of a pizza.",
+            answer: "Divide the circle into 4 equal parts and shade 3 parts."
+        },
+        {
+            question: "Show addition of 2/5 + 3/10 using strips or diagrams.",
+            answer: "Convert 2/5 = 4/10, then 4/10 + 3/10 = 7/10. Shade accordingly."
+        },
+        {
+            question: "Convert 7/4 to a mixed fraction using a diagram.",
+            answer: "7/4 = 1 whole and 3/4. Show one full shape shaded and 3/4 of another."
+        },
+        {
+            question: "Find 2/3 of 18 using a step diagram.",
+            answer: "Divide 18 into 3 equal groups of 6 each; take 2 groups = 12."
+        },
+        {
+            question: "Simplify 12/16 using a visual fraction bar.",
+            answer: "Divide numerator and denominator by 4: 12/16 = 3/4."
+        }
+    ],
+
+    broadTest: [
+        {
+            question: "Convert 11/3 into a mixed fraction.",
+            options: ["3 2/3", "2 2/3", "3 1/3", "2 1/3"],
+            correct: 0
+        },
+        {
+            question: "Add 3/8 + 1/4.",
+            options: ["4/8", "5/8", "6/8", "7/8"],
+            correct: 3
+        },
+        {
+            question: "Simplify 15/20.",
+            options: ["3/4", "4/5", "5/6", "2/3"],
+            correct: 0
+        },
+        {
+            question: "Find 2/5 of 25.",
+            options: ["10", "12", "15", "20"],
+            correct: 0
+        },
+        {
+            question: "Which fraction is equivalent to 3/4?",
+            options: ["6/8", "5/6", "2/5", "4/5"],
+            correct: 0
+        }
+    ],
+
     test: [
         {
             question: "In the fraction 7/9, the denominator is:",
@@ -116,12 +168,12 @@ const class6Chapter7 = {
         {
             question: "What is 5/12 + 7/12?",
             options: ["11/12", "1", "12/12", "1 1/12"],
-            correct: 1
+            correct: 3
         },
         {
             question: "What is 9/10 - 2/5?",
             options: ["1/10", "3/10", "5/10", "7/10"],
-            correct: 2
+            correct: 3
         },
         {
             question: "What is 2/7 of 21?",
@@ -131,11 +183,10 @@ const class6Chapter7 = {
         {
             question: "What is 3/4 + 2/3?",
             options: ["17/12", "19/12", "21/12", "23/12"],
-            correct: 0
+            correct: 1
         }
     ]
 };
 
 // Export for dynamic loading
 window.class6Chapter7 = class6Chapter7;
-
