@@ -92,6 +92,80 @@ const class5Chapter3 = {
       answer: "The largest 2-digit number is 99. 99 × 1 = 99.",
     },
   ],
+
+  // Word problems with detailed answers
+  broad: [
+    {
+      question:
+        "A basket has 12 apples. If there are 8 such baskets, how many apples are there in total?",
+      answer: "12 × 8 = 96 apples in total.",
+    },
+    {
+      question:
+        "One packet has 24 chocolates. How many chocolates are there in 15 packets?",
+      answer: "24 × 15 = 360 chocolates.",
+    },
+    {
+      question:
+        "A classroom has 6 rows of benches, with 8 benches in each row. How many benches are there in total?",
+      answer: "6 × 8 = 48 benches.",
+    },
+    {
+      question:
+        "A farmer plants 125 mango trees in one row. If he plants 12 rows, how many mango trees are there in total?",
+      answer: "125 × 12 = 1500 mango trees.",
+    },
+    {
+      question: "A pen costs ₹15. What is the cost of 48 pens?",
+      answer: "15 × 48 = ₹720.",
+    },
+    {
+      question:
+        "If a worker earns ₹350 per day, how much will he earn in 25 days?",
+      answer: "350 × 25 = ₹8750.",
+    },
+  ],
+
+  // Word problem multiple-choice questions
+  broadTest: [
+    {
+      question:
+        "A basket has 12 apples. If there are 8 baskets, how many apples are there?",
+      options: ["96", "88", "108", "100"],
+      correct: 0,
+    },
+    {
+      question:
+        "One packet has 24 chocolates. How many chocolates are there in 15 packets?",
+      options: ["340", "350", "360", "370"],
+      correct: 2,
+    },
+    {
+      question:
+        "A classroom has 6 rows of benches, with 8 benches in each row. How many benches are there?",
+      options: ["42", "48", "36", "56"],
+      correct: 1,
+    },
+    {
+      question:
+        "A farmer plants 125 mango trees in one row. If he plants 12 rows, how many mango trees are there?",
+      options: ["1200", "1400", "1500", "1600"],
+      correct: 2,
+    },
+    {
+      question: "A pen costs ₹15. What is the cost of 48 pens?",
+      options: ["₹680", "₹700", "₹720", "₹750"],
+      correct: 2,
+    },
+    {
+      question:
+        "If a worker earns ₹350 per day, how much will he earn in 25 days?",
+      options: ["₹8750", "₹9000", "₹9500", "₹8700"],
+      correct: 0,
+    },
+  ],
+
+  // Short MCQs
   test: [
     {
       question: "What is the product of 8 × 7?",
@@ -141,7 +215,7 @@ const class5Chapter3 = {
     {
       question: "Write 4 × 3 as repeated addition.",
       options: ["4 + 4 + 4", "3 + 3 + 3 + 3", "4 + 3", "3 × 4"],
-      correct: 0,
+      correct: 1,
     },
     {
       question: "The product of the largest 2-digit number and 1 is:",
@@ -153,4 +227,3 @@ const class5Chapter3 = {
 
 // Export for dynamic loading
 window.class5Chapter3 = class5Chapter3;
-
