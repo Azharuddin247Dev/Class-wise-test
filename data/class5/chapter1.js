@@ -82,6 +82,59 @@ const class5Chapter1 = {
             answer: "The largest 4-digit number is 9999. It has 9 in all four places."
         }
     ],
+    broad: [
+        {
+            question: "A shopkeeper has 1,245 apples. He sells 678 apples in the morning and 234 apples in the evening. How many apples are left with him? Show your complete calculation.",
+            answer: "Step 1: Total apples sold = 678 + 234 = 912 apples\nStep 2: Apples left = 1,245 - 912 = 333 apples\nTherefore, 333 apples are left with the shopkeeper."
+        },
+        {
+            question: "In a school, there are 8 sections in Class V. Each section has 45 students. If 23 students are absent today, how many students are present? Explain your method.",
+            answer: "Step 1: Total students in Class V = 8 × 45 = 360 students\nStep 2: Students present = 360 - 23 = 337 students\nTherefore, 337 students are present in school today."
+        },
+        {
+            question: "A farmer harvested 2,456 kg of rice from his field. He wants to pack them in bags of 25 kg each. How many full bags can he make? How much rice will be left over?",
+            answer: "Step 1: Divide 2,456 by 25\n2,456 ÷ 25 = 98 remainder 6\nStep 2: Full bags = 98 bags\nStep 3: Rice left over = 6 kg\nTherefore, the farmer can make 98 full bags with 6 kg of rice left over."
+        },
+        {
+            question: "Ravi's mother gave him ₹500 to buy school supplies. He bought 3 notebooks for ₹45 each, 2 pens for ₹15 each, and 1 geometry box for ₹85. How much money is left with him?",
+            answer: "Step 1: Cost of notebooks = 3 × ₹45 = ₹135\nStep 2: Cost of pens = 2 × ₹15 = ₹30\nStep 3: Cost of geometry box = ₹85\nStep 4: Total spent = ₹135 + ₹30 + ₹85 = ₹250\nStep 5: Money left = ₹500 - ₹250 = ₹250\nTherefore, ₹250 is left with Ravi."
+        },
+        {
+            question: "A library has 1,234 books. In the first week, 156 books were issued and 89 books were returned. In the second week, 203 books were issued and 145 books were returned. How many books are currently in the library?",
+            answer: "Step 1: Books after first week = 1,234 - 156 + 89 = 1,167 books\nStep 2: Books after second week = 1,167 - 203 + 145 = 1,109 books\nTherefore, there are currently 1,109 books in the library."
+        },
+        {
+            question: "In a factory, 1,456 toys are produced in one day. If the factory works for 15 days, how many toys will be produced? If each toy is sold for ₹25, what will be the total earning?",
+            answer: "Step 1: Total toys produced = 1,456 × 15 = 21,840 toys\nStep 2: Total earning = 21,840 × ₹25 = ₹5,46,000\nTherefore, 21,840 toys will be produced and the total earning will be ₹5,46,000."
+        }
+    ],
+    broadTest: [
+        {
+            question: "A shopkeeper has 1,245 apples. He sells 678 apples in the morning and 234 apples in the evening. How many apples are left?",
+            options: ["333 apples", "912 apples", "567 apples", "445 apples"],
+            correct: 0
+        },
+        {
+            question: "In a school, there are 8 sections with 45 students each. If 23 students are absent, how many are present?",
+            options: ["337 students", "360 students", "320 students", "340 students"],
+            correct: 0
+        },
+        {
+            question: "A farmer has 2,456 kg rice. He packs them in 25 kg bags. How many full bags can he make?",
+            options: ["98 bags", "100 bags", "96 bags", "102 bags"],
+            correct: 0
+        },
+        {
+            question: "Ravi has ₹500. He spends ₹135 on notebooks, ₹30 on pens, ₹85 on geometry box. Money left?",
+            options: ["₹250", "₹200", "₹300", "₹150"],
+            correct: 0
+        },
+        {
+            question: "A library has 1,234 books. Week 1: 156 issued, 89 returned. Week 2: 203 issued, 145 returned. Books now?",
+            options: ["1,109 books", "1,200 books", "1,150 books", "1,050 books"],
+            correct: 0
+        }
+    ],
     test: [
         {
             question: "What is the smallest natural number?",
@@ -96,7 +149,7 @@ const class5Chapter1 = {
         {
             question: "What is the place value of 7 in 3756?",
             options: ["7", "70", "700", "50"],
-            correct: 2
+            correct: 1
         },
         {
             question: "Round 4567 to the nearest hundred.",
