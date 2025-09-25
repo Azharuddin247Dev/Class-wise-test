@@ -159,7 +159,7 @@ const class7Chapter4 = {
     {
       question: "Solve: 2x + 3 = 11",
       options: ["3", "4", "5", "6"],
-      correct: 2,
+      correct: 1,
     },
     {
       question: "Solve: 5 + x = 9",
@@ -169,7 +169,7 @@ const class7Chapter4 = {
     {
       question: "Solve: 4x - 7 = 9",
       options: ["2", "4", "3", "5"],
-      correct: 2,
+      correct: 1,
     },
     {
       question: "Solve: 2(x + 3) = 14",
@@ -196,3 +196,4 @@ const class7Chapter4 = {
 
 // Export for dynamic loading
 window.class7Chapter4 = class7Chapter4;
+
