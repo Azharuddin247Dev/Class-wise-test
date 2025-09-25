@@ -9,7 +9,8 @@ let userData = {
     testQuestions: [],
     currentTestQuestion: 0,
     testAnswers: [],
-    testStartTime: null
+    testStartTime: null,
+    questionType: 'short'
 };
 
 // Class chapters data is now loaded from external file (chapters.js)
@@ -80,12 +81,13 @@ function selectChapter(chapter) {
 }
 
 function selectType(type) {
+    userData.questionType = type;
+    
     if (type === 'broad') {
         loadBroadContent();
         return;
     }
     
-    // Load reading content for short questions
     loadReadingContent();
 }
 
@@ -98,67 +100,41 @@ function loadBroadContent() {
         `Broad Questions: ${userData.selectedChapter.name}`;
     
     userData.currentPage = 1;
-    userData.totalPages = 4;
-    
     displayCurrentBroadPage();
 }
 
 async function displayCurrentBroadPage() {
     const content = document.getElementById('questions-content');
     
-    // Show loading animation
-    content.innerHTML = `
-        <div class="reading-loader">
-            <div class="loader-books">
-                <div class="book book1">📝</div>
-                <div class="book book2">📚</div>
-                <div class="book book3">📖</div>
-            </div>
-            <div class="loader-text">
-                <h3>✨ Loading Broad Questions ✨</h3>
-                <p>Preparing detailed solutions...</p>
-                <div class="progress-dots">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </div>
-            </div>
-        </div>
-    `;
-    
     try {
-        const questionsData = await getBroadQuestionsForChapter(userData.selectedClass, userData.selectedChapter.id);
+        const chapterData = await window.chapterLoader.loadChapter(userData.selectedClass, userData.selectedChapter.id);
+        const broadQuestions = chapterData.broad || [];
         
-        if (questionsData.length === 0) {
+        if (broadQuestions.length === 0) {
             content.innerHTML = '<div style="text-align: center; padding: 40px;"><p>Broad questions not available for this chapter.</p><button onclick="goBackToChapters()" style="margin-top: 20px;">Back to Chapters</button></div>';
             return;
         }
         
         const startIndex = (userData.currentPage - 1) * 3;
         const endIndex = startIndex + 3;
-        const pageQuestions = questionsData.slice(startIndex, endIndex);
+        const pageQuestions = broadQuestions.slice(startIndex, endIndex);
         
         content.innerHTML = '';
         
         pageQuestions.forEach((item, index) => {
-            setTimeout(() => {
-                const questionDiv = document.createElement('div');
-                questionDiv.className = 'question-item question-appear';
-                questionDiv.innerHTML = `
-                    <h4>Q${startIndex + index + 1}. ${item.question}</h4>
-                    <div style="margin-top: 15px;">
-                        <p><strong>Solution Approach:</strong></p>
-                        <p style="margin: 10px 0; padding: 15px; background: #e8f4fd; border-radius: 6px;">${item.approach}</p>
-                        <p><strong>Answer:</strong></p>
-                        <p style="margin: 10px 0; line-height: 1.6;">${item.answer}</p>
-                        ${item.example ? `<p><strong>Example:</strong></p><p style="margin: 10px 0; padding: 10px; background: #f0f8f0; border-radius: 6px;">${item.example}</p>` : ''}
-                    </div>
-                `;
-                content.appendChild(questionDiv);
-            }, index * 150);
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-item';
+            questionDiv.innerHTML = `
+                <h4>Q${startIndex + index + 1}. ${item.question}</h4>
+                <div style="margin-top: 15px;">
+                    <p><strong>Answer:</strong></p>
+                    <p style="margin: 10px 0; line-height: 1.6; white-space: pre-line;">${item.answer}</p>
+                </div>
+            `;
+            content.appendChild(questionDiv);
         });
         
-        userData.totalPages = Math.ceil(questionsData.length / 3);
+        userData.totalPages = Math.ceil(broadQuestions.length / 3);
         
         document.getElementById('current-page').textContent = userData.currentPage;
         document.getElementById('total-pages').textContent = userData.totalPages;
@@ -166,13 +142,12 @@ async function displayCurrentBroadPage() {
         document.getElementById('prev-btn').disabled = userData.currentPage === 1;
         document.getElementById('next-btn').style.display = 
             userData.currentPage === userData.totalPages ? 'none' : 'inline-block';
-        document.getElementById('test-btn').style.display = 'none';
+        document.getElementById('test-btn').style.display = 
+            userData.currentPage === userData.totalPages ? 'inline-block' : 'none';
     } catch (error) {
         content.innerHTML = '<div style="text-align: center; padding: 40px;"><p>Error loading broad questions.</p><button onclick="goBackToChapters()" style="margin-top: 20px;">Back to Chapters</button></div>';
     }
 }
-
-
 
 function loadReadingContent() {
     document.getElementById('type-container').style.display = 'none';
@@ -266,27 +241,46 @@ async function displayCurrentPage() {
 function nextPage() {
     if (userData.currentPage < userData.totalPages) {
         userData.currentPage++;
-        displayCurrentPage();
+        // Check if we're in broad questions mode
+        const readingTitle = document.getElementById('reading-title').textContent;
+        if (readingTitle.includes('Broad Questions')) {
+            displayCurrentBroadPage();
+        } else {
+            displayCurrentPage();
+        }
     }
 }
 
 function prevPage() {
     if (userData.currentPage > 1) {
         userData.currentPage--;
-        displayCurrentPage();
+        // Check if we're in broad questions mode
+        const readingTitle = document.getElementById('reading-title').textContent;
+        if (readingTitle.includes('Broad Questions')) {
+            displayCurrentBroadPage();
+        } else {
+            displayCurrentPage();
+        }
     }
 }
 
 async function startTest() {
-    // Log test start activity
     logUserActivity('test_started', {
         class: userData.selectedClass,
         chapter: userData.selectedChapter.name,
-        chapterId: userData.selectedChapter.id
+        chapterId: userData.selectedChapter.id,
+        questionType: userData.questionType || 'short'
     });
     
     try {
-        const testQuestions = await getTestQuestionsForChapter(userData.selectedClass, userData.selectedChapter.id);
+        let testQuestions;
+        
+        if (userData.questionType === 'broad') {
+            const chapterData = await window.chapterLoader.loadChapter(userData.selectedClass, userData.selectedChapter.id);
+            testQuestions = chapterData.broadTest || [];
+        } else {
+            testQuestions = await getTestQuestionsForChapter(userData.selectedClass, userData.selectedChapter.id);
+        }
         
         if (!testQuestions || testQuestions.length === 0) {
             document.getElementById('reading-container').style.display = 'none';
@@ -296,7 +290,6 @@ async function startTest() {
             return;
         }
         
-        // Randomly select up to 10 questions for test
         userData.testQuestions = testQuestions
             .sort(() => Math.random() - 0.5)
             .slice(0, Math.min(10, testQuestions.length));
@@ -444,6 +437,7 @@ async function saveTestResult(score, percentage) {
         class: userData.selectedClass,
         chapter: userData.selectedChapter.name,
         chapterId: userData.selectedChapter.id,
+        questionType: userData.questionType || 'short',
         score: score,
         totalQuestions: userData.testQuestions.length,
         percentage: percentage,
@@ -458,7 +452,6 @@ async function saveTestResult(score, percentage) {
             hour12: true
         }),
         timeTaken: timeTaken,
-        // Enhanced performance tracking
         correctAnswers: correctAnswers,
         incorrectAnswers: userData.testQuestions.length - correctAnswers,
         averageTimePerQuestion: Math.round(timeTaken / userData.testQuestions.length / 1000),
@@ -582,7 +575,7 @@ async function showGlobalLeaderboard() {
                 <span class="user-name">${result.displayName || result.name || 'Anonymous'}${isCurrentUser ? ' (You)' : ''}</span>
             </div>
             <div class="test-info">
-                <span class="class-chapter">Class ${result.class} - ${result.chapter}</span>
+                <span class="class-chapter">Class ${result.class} - ${result.chapter} (${result.questionType || 'short'})</span>
                 <span class="score">${result.percentage}% (${result.score}/${result.totalQuestions})</span>
             </div>
             <div class="date-time">
@@ -772,7 +765,15 @@ async function getQuestionsForChapter(classNum, chapterId) {
 
 // Load broad questions using dynamic loader
 async function getBroadQuestionsForChapter(classNum, chapterId) {
-    return await window.chapterLoader.getBroadQuestions(classNum, chapterId);
+    console.log(`getBroadQuestionsForChapter called with class ${classNum}, chapter ${chapterId}`);
+    try {
+        const result = await window.chapterLoader.getBroadQuestions(classNum, chapterId);
+        console.log('getBroadQuestionsForChapter result:', result);
+        return result;
+    } catch (error) {
+        console.error('Error in getBroadQuestionsForChapter:', error);
+        return [];
+    }
 }
 
 // Load test questions using dynamic loader
