@@ -16,16 +16,32 @@ const class6Chapter10 = {
         "Area is the measure of the space inside a plane figure, such as a rectangle, square, or triangle.",
     },
     {
-      question: "What is the perimeter of a square of side 6 cm?",
+      question: "Write the formula for the area of a triangle.",
+      answer: "Area of triangle = 1/2 × base × height.",
+    },
+    {
+      question: "Write the formula for the area of a circle.",
+      answer: "Area = π × r².",
+    },
+    {
+      question: "Write the formula for the volume of a cube.",
+      answer: "Volume of cube = side³.",
+    },
+    {
+      question: "Write the formula for the volume of a cuboid.",
+      answer: "Volume of cuboid = length × breadth × height.",
+    },
+    {
+      question: "Write the formula for the surface area of a cube.",
+      answer: "Surface area of cube = 6 × side².",
+    },
+    {
+      question: "Find the perimeter of a square of side 6 cm.",
       answer: "Perimeter = 4 × side = 4 × 6 = 24 cm.",
     },
     {
       question: "Find the area of a rectangle of length 8 cm and breadth 5 cm.",
       answer: "Area = length × breadth = 8 × 5 = 40 cm².",
-    },
-    {
-      question: "Write the formula for the area of a triangle.",
-      answer: "Area of triangle = 1/2 × base × height.",
     },
     {
       question:
@@ -38,20 +54,8 @@ const class6Chapter10 = {
       answer: "Circumference = 2 × π × r = 2 × 22/7 × 7 = 44 cm.",
     },
     {
-      question: "Write the formula for area of a circle.",
-      answer: "Area = π × r².",
-    },
-    {
       question: "Find the area of a square of side 12 cm.",
       answer: "Area = side² = 12² = 144 cm².",
-    },
-    {
-      question: "Write the formula for volume of a cube.",
-      answer: "Volume of cube = side³.",
-    },
-    {
-      question: "Write the formula for volume of a cuboid.",
-      answer: "Volume of cuboid = length × breadth × height.",
     },
     {
       question: "Find the area of a triangle with base 6 cm and height 8 cm.",
@@ -77,10 +81,6 @@ const class6Chapter10 = {
       answer: "Area = base × height = 8 × 5 = 40 cm².",
     },
     {
-      question: "Write the formula for surface area of a cube.",
-      answer: "Surface area of cube = 6 × side².",
-    },
-    {
       question: "Find the surface area of a cube with side 7 cm.",
       answer: "Surface area = 6 × 7² = 6 × 49 = 294 cm².",
     },
@@ -91,61 +91,127 @@ const class6Chapter10 = {
         "Curved surface area = 2 × π × r × h = 2 × 22/7 × 7 × 10 = 440 cm².",
     },
   ],
-  test: [
+
+  broad: [
     {
       question:
-        "What is the perimeter of a rectangle with length 12 cm and breadth 5 cm?",
-      options: ["34 cm", "17 cm", "60 cm", "30 cm"],
-      correct: 0,
+        "Find the perimeter of your notebook and write its value in cm.",
+      answer:
+        "Measure length and breadth of notebook, then apply Perimeter = 2 × (length + breadth).",
     },
     {
-      question: "Find the area of a square with side 14 cm.",
-      options: ["28 cm²", "196 cm", "14 cm²","196 cm²"],
-      correct: 3,
+      question: "Calculate the area of your classroom floor.",
+      answer: "Measure length and breadth, then Area = length × breadth.",
     },
+    {
+      question: "Find the volume of a cylindrical water bottle at home.",
+      answer: "Measure radius and height, then Volume = π × r² × h.",
+    },
+    {
+      question: "Calculate the surface area of a cube-shaped gift box.",
+      answer: "Measure the side length and apply Surface area = 6 × side².",
+    },
+    {
+      question: "Find the curved surface area of a cylindrical drum at home.",
+      answer: "Measure radius and height, then CSA = 2 × π × r × h.",
+    },
+  ],
+
+  broadTest: [
     {
       question:
-        "What is the circumference of a circle with diameter 10 cm? (π = 3.14)",
-      options: ["15.7 cm","31.4 cm", "62.8 cm", "10 cm"],
+        "Find the perimeter of a rectangle with length 5 cm and breadth 8 cm.",
+      options: ["13 cm", "26 cm", "40 cm", "15 cm"],
       correct: 1,
     },
     {
-      question: "Find the area of a triangle with base 10 cm and height 12 cm.",
-      options: ["60 cm²", "120 cm²", "22 cm²", "50 cm²"],
+      question: "Find the area of a triangle with base 6 cm and height 9 cm.",
+      options: ["27 cm²", "54 cm²", "36 cm²", "45 cm²"],
+      correct: 1,
+    },
+    {
+      question: "Find the volume of a cube with side 4 cm.",
+      options: ["16 cm³", "64 cm³", "12 cm³", "32 cm³"],
+      correct: 1,
+    },
+    {
+      question: "Find the surface area of a cube with side 5 cm.",
+      options: ["100 cm²", "125 cm²", "150 cm²", "175 cm²"],
       correct: 0,
     },
     {
-      question: "Find the volume of a cube with side 6 cm.",
-      options: ["36 cm³", "72 cm³","216 cm³", "12 cm³"],
-      correct: 2,
+      question:
+        "Find the curved surface area of a cylinder with radius 7 cm and height 10 cm (π = 22/7).",
+      options: ["440 cm²", "420 cm²", "400 cm²", "460 cm²"],
+      correct: 0,
+    },
+  ],
+
+  test: [
+    {
+      question: "What is perimeter?",
+      options: [
+        "Total distance around a closed figure",
+        "Area inside a figure",
+        "Volume of a figure",
+        "Length of one side",
+      ],
+      correct: 0,
     },
     {
-      question:
-        "Find the volume of a cuboid with length 8 cm, breadth 5 cm, and height 3 cm.",
-      options: ["120 cm³", "100 cm³", "80 cm³", "150 cm³"],
+      question: "What is area?",
+      options: [
+        "Measure of space inside a figure",
+        "Distance around a figure",
+        "Volume of a figure",
+        "Height of a figure",
+      ],
+      correct: 0,
+    },
+    {
+      question: "Formula for volume of cuboid?",
+      options: [
+        "length × breadth × height",
+        "side³",
+        "π × r² × h",
+        "1/2 × base × height",
+      ],
+      correct: 0,
+    },
+    {
+      question: "Perimeter of a square of side 6 cm?",
+      options: ["12 cm", "24 cm", "36 cm", "30 cm"],
+      correct: 1,
+    },
+    {
+      question: "Area of a rectangle with length 8 cm and breadth 5 cm?",
+      options: ["40 cm²", "30 cm²", "45 cm²", "50 cm²"],
+      correct: 0,
+    },
+    {
+      question: "Circumference of a circle with radius 7 cm (π = 22/7)?",
+      options: ["44 cm", "42 cm", "40 cm", "46 cm"],
+      correct: 0,
+    },
+    {
+      question: "Volume of a cube with side 5 cm?",
+      options: ["125 cm³", "100 cm³", "150 cm³", "120 cm³"],
+      correct: 0,
+    },
+    {
+      question: "Perimeter of an equilateral triangle with side 9 cm?",
+      options: ["18 cm", "27 cm", "36 cm", "30 cm"],
+      correct: 1,
+    },
+    {
+      question: "Surface area of a cube with side 7 cm?",
+      options: ["294 cm²", "196 cm²", "300 cm²", "210 cm²"],
       correct: 0,
     },
     {
       question:
-        "Find the perimeter of an equilateral triangle with side 15 cm.",
-      options: ["60 cm", "30 cm","45 cm", "75 cm"],
-      correct: 2,
-    },
-    {
-      question:
-        "Find the area of a parallelogram with base 12 cm and height 9 cm.",
-      options: ["108 cm²", "21 cm²", "36 cm²", "120 cm²"],
-      correct: 0,
-    },
-    {
-      question: "Find the surface area of a cube with side 10 cm.",
-      options: ["100 cm²", "400 cm²", "300 cm²", "600 cm²"],
-      correct: 3,
-    },
-    {
-      question:
-        "Find the curved surface area of a cylinder with radius 7 cm and height 10 cm. (π = 22/7)",
-      options: ["440 cm²", "220 cm²", "154 cm²", "400 cm²"],
+        "Curved surface area of a cylinder with radius 7 cm and height 10 cm (π = 22/7)?",
+      options: ["440 cm²", "420 cm²", "400 cm²", "460 cm²"],
       correct: 0,
     },
   ],
@@ -153,4 +219,3 @@ const class6Chapter10 = {
 
 // Export for dynamic loading
 window.class6Chapter10 = class6Chapter10;
-
