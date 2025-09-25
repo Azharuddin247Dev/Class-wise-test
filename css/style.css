@@ -26,7 +26,7 @@ body {
     margin: 20px auto;
     border: 1px solid #dadde1;
 }
- 
+
 /* Auth Styles */
 .auth-header {
     text-align: center;
@@ -2090,5 +2090,142 @@ body::before {
     }
     50% {
         transform: translateY(-5px);
+    }
+}
+/* Beautiful Reading Loader */
+.reading-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.loader-books {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.book {
+    font-size: 48px;
+    animation: bookFloat 2s ease-in-out infinite;
+}
+
+.book1 {
+    animation-delay: 0s;
+}
+
+.book2 {
+    animation-delay: 0.3s;
+}
+
+.book3 {
+    animation-delay: 0.6s;
+}
+
+@keyframes bookFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-10px) rotate(-5deg);
+    }
+}
+
+.loader-text h3 {
+    color: #1877f2;
+    margin-bottom: 10px;
+    font-size: 24px;
+    animation: textGlow 2s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+    0%, 100% {
+        text-shadow: 0 0 5px rgba(24, 119, 242, 0.3);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(24, 119, 242, 0.6);
+    }
+}
+
+.loader-text p {
+    color: #65676b;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.progress-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background: #1877f2;
+    border-radius: 50%;
+    animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+.dot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes dotPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
+}
+
+/* Question Appear Animation */
+.question-appear {
+    animation: questionSlideIn 0.6s ease-out;
+}
+
+@keyframes questionSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* Dark mode support for loader */
+@media (prefers-color-scheme: dark) {
+    .loader-text h3 {
+        color: #2d88ff;
+    }
+    
+    .loader-text p {
+        color: #b0b3b8;
+    }
+    
+    .dot {
+        background: #2d88ff;
     }
 }
