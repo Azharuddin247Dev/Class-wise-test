@@ -82,6 +82,58 @@ const class6Chapter4 = {
             answer: "An open figure does not enclose any space, while a closed figure forms an enclosed region."
         }
     ],
+
+    broad: [
+        {
+            question: "Draw a triangle, a quadrilateral, and a pentagon and identify their sides and vertices.",
+            answer: "Triangle: 3 sides, 3 vertices\nQuadrilateral: 4 sides, 4 vertices\nPentagon: 5 sides, 5 vertices"
+        },
+        {
+            question: "Draw a circle, mark the center, radius, diameter, and a chord.",
+            answer: "Center marked as O, radius = distance from O to any point on circle, diameter = longest chord passing through O, chord = any line joining 2 points on circle"
+        },
+        {
+            question: "Identify intersecting and parallel lines in a diagram.",
+            answer: "Intersecting lines meet at a point; parallel lines never meet no matter how far extended."
+        },
+        {
+            question: "Classify these shapes as open or closed: line, ray, polygon, curve.",
+            answer: "Line – open, Ray – open, Polygon – closed, Curve – can be open or closed"
+        },
+        {
+            question: "Name polygons with 3, 4, 5, and 6 sides.",
+            answer: "3 sides – Triangle, 4 sides – Quadrilateral, 5 sides – Pentagon, 6 sides – Hexagon"
+        }
+    ],
+
+    broadTest: [
+        {
+            question: "A polygon with 5 sides is called?",
+            options: ["Triangle", "Pentagon", "Hexagon", "Quadrilateral"],
+            correct: 1
+        },
+        {
+            question: "The longest chord of a circle is called?",
+            options: ["Radius", "Chord", "Diameter", "Circumference"],
+            correct: 2
+        },
+        {
+            question: "Two lines that never meet are called?",
+            options: ["Intersecting", "Parallel", "Perpendicular", "Curves"],
+            correct: 1
+        },
+        {
+            question: "A closed figure made of line segments is called?",
+            options: ["Curve", "Polygon", "Ray", "Chord"],
+            correct: 1
+        },
+        {
+            question: "The fixed point in the center of a circle is called?",
+            options: ["Radius", "Chord", "Center", "Diameter"],
+            correct: 2
+        }
+    ],
+
     test: [
         {
             question: "A line segment has:",
