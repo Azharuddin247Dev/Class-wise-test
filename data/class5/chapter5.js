@@ -93,6 +93,59 @@ const class5Chapter5 = {
       answer: "1/3 + 1/3 = 2/3.",
     },
   ],
+
+  broad: [
+    {
+      question: "Explain proper, improper, and mixed fractions with examples.",
+      answer:
+        "A proper fraction has numerator smaller than denominator (e.g., 3/4). An improper fraction has numerator greater or equal to denominator (e.g., 7/5). A mixed fraction combines a whole number and a fraction (e.g., 2 1/3).",
+    },
+    {
+      question:
+        "How do you convert an improper fraction into a mixed fraction? Give an example.",
+      answer:
+        "To convert, divide numerator by denominator. The quotient is the whole number, remainder becomes the numerator. Example: 7/4 = 1 3/4.",
+    },
+    {
+      question:
+        "What are like and unlike fractions? How do you add unlike fractions?",
+      answer:
+        "Like fractions have same denominator (e.g., 2/7, 5/7). Unlike fractions have different denominators (e.g., 3/5, 2/7). To add unlike fractions, find LCM of denominators, convert to like fractions, then add.",
+    },
+    {
+      question: "Explain equivalent fractions with two examples.",
+      answer:
+        "Equivalent fractions are fractions that represent the same value. Example: 1/2 = 2/4 = 4/8, and 3/5 = 6/10 = 9/15.",
+    },
+    {
+      question:
+        "Solve: A basket has 20 mangoes. If 3/4 of them are ripe, how many mangoes are ripe?",
+      answer: "3/4 of 20 = (3 × 20) ÷ 4 = 60 ÷ 4 = 15 mangoes are ripe.",
+    },
+  ],
+
+  broadTest: [
+    {
+      question:
+        "Explain with example how to convert a mixed fraction into an improper fraction.",
+    },
+    {
+      question:
+        "What are like fractions and unlike fractions? Write examples of each.",
+    },
+    {
+      question:
+        "Solve: Out of 30 students, 2/5 are girls. How many girls are there in the class?",
+    },
+    {
+      question:
+        "What is an equivalent fraction? Write three equivalent fractions of 2/3.",
+    },
+    {
+      question: "Explain how to simplify fractions with an example.",
+    },
+  ],
+
   test: [
     {
       question: "In the fraction 5/8, what is the numerator?",
@@ -142,6 +195,34 @@ const class5Chapter5 = {
     {
       question: "What is 1/2 + 1/2?",
       options: ["1/2", "1", "2", "0"],
+      correct: 1,
+    },
+    // Extra questions added
+    {
+      question: "What is 5/9 – 2/9?",
+      options: ["2/9", "3/9", "7/9", "1/9"],
+      correct: 1,
+    },
+    {
+      question:
+        "Ravi ate 2/8 of a cake and his sister ate 3/8. How much of the cake did they eat together?",
+      options: ["4/8", "5/8", "6/8", "7/8"],
+      correct: 1,
+    },
+    {
+      question: "Which of these is a mixed fraction?",
+      options: ["7/5", "3/4", "2 1/3", "5/6"],
+      correct: 2,
+    },
+    {
+      question:
+        "A basket has 20 mangoes. If 3/4 of them are ripe, how many are ripe?",
+      options: ["10", "12", "15", "18"],
+      correct: 2,
+    },
+    {
+      question: "Which of these is an equivalent fraction of 2/3?",
+      options: ["3/4", "4/6", "5/7", "6/8"],
       correct: 1,
     },
   ],
