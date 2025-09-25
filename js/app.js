@@ -104,11 +104,33 @@ function loadReadingContent() {
 }
 
 async function displayCurrentPage() {
+    const content = document.getElementById('questions-content');
+    
+    // Show beautiful loading animation
+    content.innerHTML = `
+        <div class="reading-loader">
+            <div class="loader-books">
+                <div class="book book1">📚</div>
+                <div class="book book2">📖</div>
+                <div class="book book3">📝</div>
+            </div>
+            <div class="loader-text">
+                <h3>✨ Loading Questions ✨</h3>
+                <p>Preparing your learning materials...</p>
+                <div class="progress-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </div>
+    `;
+    
     try {
         const questionsData = await getQuestionsForChapter(userData.selectedClass, userData.selectedChapter.id);
         
         if (questionsData.length === 0) {
-            document.getElementById('questions-content').innerHTML = 
+            content.innerHTML = 
                 '<div style="text-align: center; padding: 40px;"><p>Questions not available for this chapter. Please check back later.</p><button onclick="goBackToChapters()" style="margin-top: 20px;">Back to Chapters</button></div>';
             return;
         }
@@ -117,17 +139,19 @@ async function displayCurrentPage() {
         const endIndex = startIndex + 5;
         const pageQuestions = questionsData.slice(startIndex, endIndex);
         
-        const content = document.getElementById('questions-content');
+        // Clear content and add questions with staggered animation
         content.innerHTML = '';
         
         pageQuestions.forEach((item, index) => {
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question-item';
-            questionDiv.innerHTML = `
-                <h4>Q${startIndex + index + 1}. ${item.question}</h4>
-                <p><strong>Answer:</strong> ${item.answer}</p>
-            `;
-            content.appendChild(questionDiv);
+            setTimeout(() => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-item question-appear';
+                questionDiv.innerHTML = `
+                    <h4>Q${startIndex + index + 1}. ${item.question}</h4>
+                    <p><strong>Answer:</strong> ${item.answer}</p>
+                `;
+                content.appendChild(questionDiv);
+            }, index * 150);
         });
         
         // Calculate total pages based on actual questions
@@ -144,7 +168,7 @@ async function displayCurrentPage() {
             userData.currentPage === userData.totalPages ? 'inline-block' : 'none';
     } catch (error) {
         console.error('Error loading questions:', error);
-        document.getElementById('questions-content').innerHTML = 
+        content.innerHTML = 
             `<div style="text-align: center; padding: 40px;">
                 <p><strong>Error loading chapter content:</strong></p>
                 <p>${error.message}</p>
