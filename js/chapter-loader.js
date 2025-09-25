@@ -141,23 +141,28 @@ class ChapterLoader {
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = `data/class${classNum}/chapter${chapterId}-broad.js`;
+            console.log(`Loading broad questions from: ${script.src}`);
             
             script.onload = () => {
                 setTimeout(() => {
                     const broadData = window[`class${classNum}Chapter${chapterId}Broad`];
+                    console.log(`Looking for variable: class${classNum}Chapter${chapterId}Broad`);
+                    console.log('Found data:', broadData);
                     if (broadData && broadData.questions) {
-                        console.log(`Loaded broad questions from: class${classNum}/chapter${chapterId}-broad.js`);
+                        console.log(`Loaded ${broadData.questions.length} broad questions`);
                         resolve(broadData.questions);
                     } else {
+                        console.error('Broad data structure:', broadData);
                         reject(new Error(`Broad questions not found in file`));
                     }
                     document.head.removeChild(script);
                 }, 100);
             };
             
-            script.onerror = () => {
+            script.onerror = (error) => {
+                console.error('Failed to load broad questions file:', script.src, error);
                 document.head.removeChild(script);
-                reject(new Error(`Failed to load broad questions file`));
+                reject(new Error(`Failed to load broad questions file: ${script.src}`));
             };
             
             document.head.appendChild(script);
